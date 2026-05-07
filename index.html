@@ -654,9 +654,8 @@
 const SECTIONS = ['s0','s1','s2','s3','s4','s5','s6','s7'];
 let currentSection = 0;
 let records = JSON.parse(localStorage.getItem('anthrax_kap_records') || '[]');
-
 // ── Google Sheets Web App URL ──────────────────────────────────────────────
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxDEdE8s7STIOUwMe1ir3Hs0kfD5gMsmgkwyEAurvbcGzzIqxpH7_hx9uFqUdamCQCx/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwJm1f82h2TtkGnvUJOxLbzlyU8_Ny8zPfGKQvJZoy-ZdDAsnVbWgj-dYH7FEtuB8nK/exec';
 
 async function sendToSheet(action, payload) {
   if (action !== 'save') return true;
