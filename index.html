@@ -567,7 +567,7 @@
   </div>
 
   <!-- SAVED RECORDS SECTION -->
-  <div class="section" id="s7" style="display:none;">
+  <div class="section" id="s7">
     <div class="section-header">
       <span class="section-number">📋</span>
       <div>
@@ -711,6 +711,7 @@ function showSection(id, el) {
   el.classList.add('active');
   currentSection = SECTIONS.indexOf(id);
   updateProgress();
+  if (id === 's7') loadFromSheet();
 }
 
 function navSection(dir) {
