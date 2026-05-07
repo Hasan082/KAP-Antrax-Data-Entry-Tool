@@ -4,399 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anthrax KAP Survey — Data Entry Tool</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
-  :root {
-    --green: #1a7a4a;
-    --green-light: #e6f5ed;
-    --green-mid: #3aaa6e;
-    --amber: #b45309;
-    --amber-light: #fef3c7;
-    --red: #b91c1c;
-    --red-light: #fee2e2;
-    --blue: #1d4ed8;
-    --blue-light: #dbeafe;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-400: #9ca3af;
-    --gray-600: #4b5563;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
-    --font: 'IBM Plex Sans', sans-serif;
-    --mono: 'IBM Plex Mono', monospace;
-    --radius: 8px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--font);
-    background: var(--gray-100);
-    color: var(--gray-800);
-    font-size: 14px;
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  .header {
-    background: var(--green);
-    color: white;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  .header-left { display: flex; align-items: center; gap: 12px; }
-  .header-logo {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700;
-  }
-  .header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.3px; }
-  .header p { font-size: 11px; opacity: 0.75; margin-top: 2px; }
-  .header-actions { display: flex; gap: 8px; }
-
-  /* NAV TABS */
-  .tabs {
-    background: white;
-    border-bottom: 1px solid var(--gray-200);
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    padding: 0 16px;
-    position: sticky;
-    top: 69px;
-    z-index: 90;
-  }
-  .tab {
-    padding: 12px 18px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    user-select: none;
-  }
-  .tab:hover { color: var(--green); }
-  .tab.active { color: var(--green); border-bottom-color: var(--green); }
-  .tab .badge {
-    display: inline-block; margin-left: 6px;
-    background: var(--green-light); color: var(--green);
-    font-size: 10px; font-weight: 600;
-    padding: 1px 6px; border-radius: 20px;
-  }
-
-  /* MAIN LAYOUT */
-  .layout {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 16px;
-    padding: 16px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  /* FORM PANEL */
-  .form-panel {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-  }
-  .section { display: none; padding: 20px; }
-  .section.active { display: block; }
-  .section-title {
-    font-size: 14px; font-weight: 600; color: var(--gray-900);
-    border-bottom: 1px solid var(--gray-200);
-    padding-bottom: 12px; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-badge {
-    background: var(--green-light); color: var(--green);
-    font-size: 10px; font-weight: 700;
-    padding: 2px 8px; border-radius: 20px;
-  }
-
-  /* FORM FIELDS */
-  .field { margin-bottom: 14px; }
-  .field label {
-    display: block;
-    font-size: 12px; font-weight: 600;
-    color: var(--gray-600);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .field label .qnum {
-    display: inline-block; width: 22px; height: 22px;
-    background: var(--green); color: white;
-    font-size: 10px; font-weight: 700;
-    border-radius: 50%;
-    text-align: center; line-height: 22px;
-    margin-right: 6px;
-  }
-  .field input[type="text"],
-  .field input[type="number"],
-  .field select {
-    width: 100%; padding: 8px 12px;
-    border: 1px solid var(--gray-200);
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--gray-900);
-    background: var(--gray-50);
-    transition: border-color 0.15s;
-    outline: none;
-  }
-  .field input:focus, .field select:focus {
-    border-color: var(--green-mid);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(58,170,110,0.1);
-  }
-  .field input[type="number"] { width: 140px; }
-
-  /* RADIO / CHECKBOX OPTIONS */
-  .options { display: flex; flex-direction: column; gap: 5px; }
-  .options.inline { flex-direction: row; flex-wrap: wrap; gap: 6px; }
-  .option-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 7px 10px;
-    border: 1px solid var(--gray-200);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.12s;
-    background: var(--gray-50);
-    user-select: none;
-  }
-  .option-item:hover { border-color: var(--green-mid); background: var(--green-light); }
-  .option-item.selected {
-    background: var(--green-light);
-    border-color: var(--green);
-    color: var(--green);
-  }
-  .option-item input { display: none; }
-  .option-dot {
-    width: 14px; height: 14px;
-    border: 2px solid var(--gray-400);
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .option-item.selected .option-dot {
-    border-color: var(--green);
-    background: var(--green);
-  }
-  .option-dot::after {
-    content: '';
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: white;
-    display: none;
-  }
-  .option-item.selected .option-dot::after { display: block; }
-
-  .option-checkbox .option-dot { border-radius: 3px; }
-  .option-item.selected .option-checkbox .option-dot::after {
-    content: '✓';
-    font-size: 9px; font-weight: 700;
-    display: block; width: auto; height: auto;
-    border-radius: 0; background: none;
-  }
-
-  .option-label { font-size: 12.5px; flex: 1; }
-  .option-code {
-    font-family: var(--mono);
-    font-size: 10px; color: var(--gray-400);
-    background: var(--gray-100);
-    padding: 1px 5px; border-radius: 3px;
-  }
-  .option-item.selected .option-code { background: rgba(255,255,255,0.5); color: var(--green); }
-
-  /* GRID LAYOUT FOR FIELDS */
-  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .span2 { grid-column: span 2; }
-
-  /* BUTTONS */
-  .btn {
-    padding: 9px 18px;
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 13px; font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-primary { background: var(--green); color: white; }
-  .btn-primary:hover { background: #155e38; }
-  .btn-secondary { background: white; color: var(--gray-700); border: 1px solid var(--gray-200); }
-  .btn-secondary:hover { background: var(--gray-50); }
-  .btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
-  .btn-danger:hover { background: #fecaca; }
-  .btn-amber { background: var(--amber-light); color: var(--amber); border: 1px solid #fcd34d; }
-  .btn-amber:hover { background: #fef08a; }
-  .btn-blue { background: var(--blue-light); color: var(--blue); border: 1px solid #93c5fd; }
-  .btn-blue:hover { background: #bfdbfe; }
-  .btn-sm { padding: 6px 12px; font-size: 12px; }
-
-  .form-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 20px;
-    border-top: 1px solid var(--gray-200);
-    background: var(--gray-50);
-  }
-  .form-nav { display: flex; gap: 8px; }
-
-  /* SIDEBAR */
-  .sidebar { display: flex; flex-direction: column; gap: 12px; }
-
-  .card {
-    background: white;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .card-header {
-    padding: 12px 14px;
-    font-size: 12px; font-weight: 700;
-    color: var(--gray-600);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-50);
-  }
-  .card-body { padding: 14px; }
-
-  /* PROGRESS */
-  .progress-bar {
-    height: 6px; background: var(--gray-200);
-    border-radius: 99px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; background: var(--green);
-    border-radius: 99px;
-    transition: width 0.3s ease;
-  }
-  .progress-text {
-    font-size: 12px; color: var(--gray-600);
-    margin-top: 6px; text-align: right;
-  }
-
-  .stat-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--gray-100);
-    font-size: 12.5px;
-  }
-  .stat-row:last-child { border-bottom: none; }
-  .stat-val { font-weight: 600; color: var(--green); font-family: var(--mono); }
-
-  /* RECORDS TABLE */
-  .records-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-50);
-  }
-  .records-title { font-size: 12px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; }
-  .records-count {
-    font-size: 11px; font-weight: 600;
-    background: var(--green-light); color: var(--green);
-    padding: 2px 8px; border-radius: 20px;
-  }
-  .records-scroll { max-height: 320px; overflow-y: auto; }
-  table.data-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-  .data-table th {
-    padding: 7px 10px;
-    background: var(--gray-100);
-    color: var(--gray-600); font-weight: 600;
-    text-align: left;
-    border-bottom: 1px solid var(--gray-200);
-    position: sticky; top: 0;
-    white-space: nowrap;
-  }
-  .data-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--gray-100);
-    color: var(--gray-800);
-    font-family: var(--mono);
-  }
-  .data-table tr:hover td { background: var(--gray-50); }
-  .data-table tr:last-child td { border-bottom: none; }
-  .del-btn {
-    background: none; border: none;
-    color: var(--gray-400); cursor: pointer;
-    font-size: 14px; padding: 2px 5px;
-    border-radius: 4px;
-  }
-  .del-btn:hover { color: var(--red); background: var(--red-light); }
-
-  /* EXPORT SECTION */
-  .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .export-btn {
-    padding: 10px 8px;
-    border-radius: 6px; border: 1px solid;
-    font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: var(--font);
-    text-align: center;
-    transition: all 0.15s;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-  }
-  .export-btn .icon { font-size: 20px; }
-  .export-csv { background: var(--green-light); color: var(--green); border-color: #86efac; }
-  .export-csv:hover { background: #bbf7d0; }
-  .export-xlsx { background: #ecfdf5; color: #065f46; border-color: #6ee7b7; }
-  .export-xlsx:hover { background: #d1fae5; }
-  .export-spss { background: var(--blue-light); color: var(--blue); border-color: #93c5fd; }
-  .export-spss:hover { background: #bfdbfe; }
-
-  .toast {
-    position: fixed; bottom: 24px; right: 24px;
-    background: var(--gray-900); color: white;
-    padding: 10px 18px; border-radius: 8px;
-    font-size: 13px; font-weight: 500;
-    z-index: 999; opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.25s;
-    pointer-events: none;
-  }
-  .toast.show { opacity: 1; transform: translateY(0); }
-
-  .empty-state {
-    text-align: center; padding: 24px;
-    color: var(--gray-400); font-size: 12px;
-  }
-  .empty-icon { font-size: 28px; margin-bottom: 8px; }
-
-  .resp-id-display {
-    font-family: var(--mono); font-size: 18px; font-weight: 700;
-    color: var(--green); background: var(--green-light);
-    padding: 8px 16px; border-radius: 6px;
-    border: 1px solid #86efac;
-    display: inline-block;
-  }
-
-  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 16px 0; }
-
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { order: -1; }
-    .field-grid, .field-grid-3 { grid-template-columns: 1fr; }
-    .span2 { grid-column: span 1; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
 
@@ -439,27 +47,7 @@
       <div class="field-grid">
         <div class="field">
           <label><span class="qnum">1</span>Respondent ID No.</label>
-          <input type="text" id="f_id" placeholder="e.g. R001" oninput="updateRespId()">
-        </div>
-        <div class="field">
-          <label><span class="qnum">2</span>Date of Data Collection</label>
-          <input type="text" id="f_date" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="field">
-          <label><span class="qnum">3</span>Place of Data Collection</label>
-          <input type="text" id="f_place" placeholder="Village/Upazila">
-        </div>
-        <div class="field">
-          <label><span class="qnum">4</span>Name of Respondent</label>
-          <input type="text" id="f_name" placeholder="Full Name">
-        </div>
-        <div class="field span2">
-          <label><span class="qnum">5</span>Address of Respondent</label>
-          <input type="text" id="f_address" placeholder="Full Address">
-        </div>
-        <div class="field">
-          <label><span class="qnum">6</span>Telephone / Cell Phone No.</label>
-          <input type="text" id="f_phone" placeholder="01XXXXXXXXX">
+          <input type="text" id="particulars_id" placeholder="e.g. R001" oninput="updateRespId()">
         </div>
       </div>
     </div>
@@ -470,55 +58,55 @@
       <div class="field-grid">
         <div class="field">
           <label><span class="qnum">1</span>Age (years)</label>
-          <input type="number" id="f_age" placeholder="e.g. 35" min="10" max="100">
+          <input type="number" id="background_1" placeholder="e.g. 35" min="10" max="100">
         </div>
         <div class="field">
           <label><span class="qnum">2</span>Gender</label>
-          <div class="options inline" id="f_gender">
-            <div class="option-item" onclick="selectRadio('f_gender', '1', this)"><span class="option-dot"></span><span class="option-label">Male</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_gender', '2', this)"><span class="option-dot"></span><span class="option-label">Female</span><span class="option-code">2</span></div>
+          <div class="options inline" id="background_2">
+            <div class="option-item" onclick="selectRadio('background_2', '1', this)"><span class="option-dot"></span><span class="option-label">Male</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_2', '2', this)"><span class="option-dot"></span><span class="option-label">Female</span><span class="option-code">2</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">3</span>Religion</label>
-          <div class="options inline" id="f_religion">
-            <div class="option-item" onclick="selectRadio('f_religion', '1', this)"><span class="option-dot"></span><span class="option-label">Islam</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_religion', '2', this)"><span class="option-dot"></span><span class="option-label">Hindu</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_religion', '3', this)"><span class="option-dot"></span><span class="option-label">Christian</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('f_religion', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
+          <div class="options inline" id="background_3">
+            <div class="option-item" onclick="selectRadio('background_3', '1', this)"><span class="option-dot"></span><span class="option-label">Islam</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_3', '2', this)"><span class="option-dot"></span><span class="option-label">Hindu</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('background_3', '3', this)"><span class="option-dot"></span><span class="option-label">Christian</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('background_3', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">4</span>Educational Qualification</label>
-          <div class="options inline" id="f_edu">
-            <div class="option-item" onclick="selectRadio('f_edu', '0', this)"><span class="option-dot"></span><span class="option-label">Illiterate</span><span class="option-code">0</span></div>
-            <div class="option-item" onclick="selectRadio('f_edu', '1', this)"><span class="option-dot"></span><span class="option-label">Primary</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_edu', '2', this)"><span class="option-dot"></span><span class="option-label">Secondary</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_edu', '3', this)"><span class="option-dot"></span><span class="option-label">College/University</span><span class="option-code">3</span></div>
+          <div class="options inline" id="background_4">
+            <div class="option-item" onclick="selectRadio('background_4', '0', this)"><span class="option-dot"></span><span class="option-label">Illiterate</span><span class="option-code">0</span></div>
+            <div class="option-item" onclick="selectRadio('background_4', '1', this)"><span class="option-dot"></span><span class="option-label">Primary</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_4', '2', this)"><span class="option-dot"></span><span class="option-label">Secondary</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('background_4', '3', this)"><span class="option-dot"></span><span class="option-label">College/University</span><span class="option-code">3</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">5</span>Occupation</label>
-          <div class="options inline" id="f_occ">
-            <div class="option-item" onclick="selectRadio('f_occ', '1', this)"><span class="option-dot"></span><span class="option-label">Day Labourer</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_occ', '2', this)"><span class="option-dot"></span><span class="option-label">Farmer</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_occ', '3', this)"><span class="option-dot"></span><span class="option-label">Business</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('f_occ', '4', this)"><span class="option-dot"></span><span class="option-label">Service</span><span class="option-code">4</span></div>
-            <div class="option-item" onclick="selectRadio('f_occ', '5', this)"><span class="option-dot"></span><span class="option-label">Others</span><span class="option-code">5</span></div>
+          <div class="options inline" id="background_5">
+            <div class="option-item" onclick="selectRadio('background_5', '1', this)"><span class="option-dot"></span><span class="option-label">Day Labourer</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_5', '2', this)"><span class="option-dot"></span><span class="option-label">Farmer</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('background_5', '3', this)"><span class="option-dot"></span><span class="option-label">Business</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('background_5', '4', this)"><span class="option-dot"></span><span class="option-label">Service</span><span class="option-code">4</span></div>
+            <div class="option-item" onclick="selectRadio('background_5', '5', this)"><span class="option-dot"></span><span class="option-label">Others</span><span class="option-code">5</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">6</span>Monthly Income (BDT)</label>
-          <input type="number" id="f_income" placeholder="e.g. 15000">
+          <input type="number" id="background_6" placeholder="e.g. 15000">
         </div>
         <div class="field span2">
           <label><span class="qnum">7</span>Source of Anthrax Knowledge</label>
-          <div class="options inline" id="f_src">
-            <div class="option-item" onclick="selectRadio('f_src', '1', this)"><span class="option-dot"></span><span class="option-label">Family/Friends/Neighbors</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_src', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Officer</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_src', '3', this)"><span class="option-dot"></span><span class="option-label">Health Worker</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('f_src', '4', this)"><span class="option-dot"></span><span class="option-label">TV/Newspaper</span><span class="option-code">4</span></div>
-            <div class="option-item" onclick="selectRadio('f_src', '5', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">5</span></div>
+          <div class="options inline" id="background_7">
+            <div class="option-item" onclick="selectRadio('background_7', '1', this)"><span class="option-dot"></span><span class="option-label">Family/Friends/Neighbors</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_7', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Officer</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('background_7', '3', this)"><span class="option-dot"></span><span class="option-label">Health Worker</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('background_7', '4', this)"><span class="option-dot"></span><span class="option-label">TV/Newspaper</span><span class="option-code">4</span></div>
+            <div class="option-item" onclick="selectRadio('background_7', '5', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">5</span></div>
           </div>
         </div>
       </div>
@@ -526,50 +114,50 @@
       <div class="field-grid-3">
         <div class="field">
           <label><span class="qnum">8</span>Anthrax outbreak in area?</label>
-          <div class="options inline" id="f_outbreak">
-            <div class="option-item" onclick="selectRadio('f_outbreak', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_outbreak', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_8">
+            <div class="option-item" onclick="selectRadio('background_8', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_8', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">9</span>Family member suffered anthrax?</label>
-          <div class="options inline" id="f_fam_suf">
-            <div class="option-item" onclick="selectRadio('f_fam_suf', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_fam_suf', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_9">
+            <div class="option-item" onclick="selectRadio('background_9', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_9', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">10</span>If yes, how long ago?</label>
-          <input type="text" id="f_howlong" placeholder="e.g. 2 years">
+          <input type="text" id="background_10" placeholder="e.g. 2 years">
         </div>
         <div class="field">
           <label><span class="qnum">11</span>Family ever infected with anthrax?</label>
-          <div class="options inline" id="f_fam_inf">
-            <div class="option-item" onclick="selectRadio('f_fam_inf', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_fam_inf', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_11">
+            <div class="option-item" onclick="selectRadio('background_11', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_11', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">12</span>Livestock ever infected?</label>
-          <div class="options inline" id="f_ls_inf">
-            <div class="option-item" onclick="selectRadio('f_ls_inf', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_ls_inf', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_12">
+            <div class="option-item" onclick="selectRadio('background_12', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_12', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">13</span>Training on disease transmission?</label>
-          <div class="options inline" id="f_training">
-            <div class="option-item" onclick="selectRadio('f_training', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_training', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_13">
+            <div class="option-item" onclick="selectRadio('background_13', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_13', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field span2">
           <label><span class="qnum">14</span>Accessibility of veterinary services?</label>
-          <div class="options inline" id="f_vet_access">
-            <div class="option-item" onclick="selectRadio('f_vet_access', '1', this)"><span class="option-dot"></span><span class="option-label">Very Accessible</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_vet_access', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately Accessible</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_vet_access', '3', this)"><span class="option-dot"></span><span class="option-label">Poorly Accessible</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('f_vet_access', '0', this)"><span class="option-dot"></span><span class="option-label">Not Accessible</span><span class="option-code">0</span></div>
+          <div class="options inline" id="background_14">
+            <div class="option-item" onclick="selectRadio('background_14', '1', this)"><span class="option-dot"></span><span class="option-label">Very Accessible</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('background_14', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately Accessible</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('background_14', '3', this)"><span class="option-dot"></span><span class="option-label">Poorly Accessible</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('background_14', '0', this)"><span class="option-dot"></span><span class="option-label">Not Accessible</span><span class="option-code">0</span></div>
           </div>
         </div>
       </div>
@@ -580,24 +168,24 @@
       <div class="section-title">Section 2.1 — Nature of Respondent & Farm <span class="section-badge">S2.1</span></div>
       <div class="field">
         <label><span class="qnum">1</span>Nature of Participant</label>
-        <div class="options inline" id="f_nature">
-          <div class="option-item" onclick="selectRadio('f_nature', '1', this)"><span class="option-dot"></span><span class="option-label">Farm Owner</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_nature', '2', this)"><span class="option-dot"></span><span class="option-label">Farm Worker</span><span class="option-code">2</span></div>
+        <div class="options inline" id="farm_1">
+          <div class="option-item" onclick="selectRadio('farm_1', '1', this)"><span class="option-dot"></span><span class="option-label">Farm Owner</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('farm_1', '2', this)"><span class="option-dot"></span><span class="option-label">Farm Worker</span><span class="option-code">2</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">2</span>Type of Farm</label>
-        <div class="options inline" id="f_farmtype">
-          <div class="option-item" onclick="selectRadio('f_farmtype', '1', this)"><span class="option-dot"></span><span class="option-label">Only Dairy</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_farmtype', '2', this)"><span class="option-dot"></span><span class="option-label">Only Poultry</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_farmtype', '3', this)"><span class="option-dot"></span><span class="option-label">Mixed (Cattle + Poultry)</span><span class="option-code">3</span></div>
+        <div class="options inline" id="farm_2">
+          <div class="option-item" onclick="selectRadio('farm_2', '1', this)"><span class="option-dot"></span><span class="option-label">Only Dairy</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('farm_2', '2', this)"><span class="option-dot"></span><span class="option-label">Only Poultry</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('farm_2', '3', this)"><span class="option-dot"></span><span class="option-label">Mixed (Cattle + Poultry)</span><span class="option-code">3</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">3</span>Farm Range / Scale</label>
-        <div class="options inline" id="f_range">
-          <div class="option-item" onclick="selectRadio('f_range', '1', this)"><span class="option-dot"></span><span class="option-label">Backyard / Small-Scale</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_range', '2', this)"><span class="option-dot"></span><span class="option-label">Commercial</span><span class="option-code">2</span></div>
+        <div class="options inline" id="farm_3">
+          <div class="option-item" onclick="selectRadio('farm_3', '1', this)"><span class="option-dot"></span><span class="option-label">Backyard / Small-Scale</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('farm_3', '2', this)"><span class="option-dot"></span><span class="option-label">Commercial</span><span class="option-code">2</span></div>
         </div>
       </div>
     </div>
@@ -608,27 +196,27 @@
       <div class="field-grid">
         <div class="field">
           <label><span class="qnum">1</span>Livestock Type</label>
-          <div class="options inline" id="f_ls_type">
-            <div class="option-item" onclick="selectRadio('f_ls_type', '1', this)"><span class="option-dot"></span><span class="option-label">Cattle</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_ls_type', '2', this)"><span class="option-dot"></span><span class="option-label">Goat</span><span class="option-code">2</span></div>
+          <div class="options inline" id="livestock_1">
+            <div class="option-item" onclick="selectRadio('livestock_1', '1', this)"><span class="option-dot"></span><span class="option-label">Cattle</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('livestock_1', '2', this)"><span class="option-dot"></span><span class="option-label">Goat</span><span class="option-code">2</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">2</span>Number of Livestock</label>
-          <input type="number" id="f_ls_num" placeholder="e.g. 5" min="0">
+          <input type="number" id="livestock_2" placeholder="e.g. 5" min="0">
         </div>
         <div class="field">
           <label><span class="qnum">3</span>Poultry Type</label>
-          <div class="options inline" id="f_pt_type">
-            <div class="option-item" onclick="selectRadio('f_pt_type', '1', this)"><span class="option-dot"></span><span class="option-label">Broiler Chicken</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('f_pt_type', '2', this)"><span class="option-dot"></span><span class="option-label">Layer Chicken</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('f_pt_type', '3', this)"><span class="option-dot"></span><span class="option-label">Duck</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('f_pt_type', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
+          <div class="options inline" id="livestock_3">
+            <div class="option-item" onclick="selectRadio('livestock_3', '1', this)"><span class="option-dot"></span><span class="option-label">Broiler Chicken</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('livestock_3', '2', this)"><span class="option-dot"></span><span class="option-label">Layer Chicken</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('livestock_3', '3', this)"><span class="option-dot"></span><span class="option-label">Duck</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('livestock_3', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
           </div>
         </div>
         <div class="field">
           <label><span class="qnum">4</span>Number of Poultry</label>
-          <input type="number" id="f_pt_num" placeholder="e.g. 50" min="0">
+          <input type="number" id="livestock_4" placeholder="e.g. 50" min="0">
         </div>
       </div>
     </div>
@@ -638,116 +226,116 @@
       <div class="section-title">Section 3 — Knowledge Related Questions <span class="section-badge">S3</span></div>
       <div class="field">
         <label><span class="qnum">1</span>Do you know of anthrax / torka disease?</label>
-        <div class="options inline" id="f_k1">
-          <div class="option-item" onclick="selectRadio('f_k1', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k1', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+        <div class="options inline" id="knowledge_1">
+          <div class="option-item" onclick="selectRadio('knowledge_1', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_1', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">2</span>What causes anthrax?</label>
-        <div class="options inline" id="f_k2">
-          <div class="option-item" onclick="selectRadio('f_k2', '1', this)"><span class="option-dot"></span><span class="option-label">Germs</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k2', '2', this)"><span class="option-dot"></span><span class="option-label">Hereditary</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k2', '3', this)"><span class="option-dot"></span><span class="option-label">Witchcraft</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k2', '4', this)"><span class="option-dot"></span><span class="option-label">Don't Know</span><span class="option-code">4</span></div>
+        <div class="options inline" id="knowledge_2">
+          <div class="option-item" onclick="selectRadio('knowledge_2', '1', this)"><span class="option-dot"></span><span class="option-label">Germs</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_2', '2', this)"><span class="option-dot"></span><span class="option-label">Hereditary</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_2', '3', this)"><span class="option-dot"></span><span class="option-label">Witchcraft</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_2', '4', this)"><span class="option-dot"></span><span class="option-label">Don't Know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">3</span>How does anthrax spread among humans?</label>
-        <div class="options" id="f_k3">
-          <div class="option-item" onclick="selectRadio('f_k3', '1', this)"><span class="option-dot"></span><span class="option-label">Eating meat/milk from infected animals</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k3', '2', this)"><span class="option-dot"></span><span class="option-label">Caring for infected animals without PPE</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k3', '3', this)"><span class="option-dot"></span><span class="option-label">Soil contaminated with anthrax germs</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k3', '4', this)"><span class="option-dot"></span><span class="option-label">Direct contact with anthrax patient</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_k3', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+        <div class="options" id="knowledge_3">
+          <div class="option-item" onclick="selectRadio('knowledge_3', '1', this)"><span class="option-dot"></span><span class="option-label">Eating meat/milk from infected animals</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_3', '2', this)"><span class="option-dot"></span><span class="option-label">Caring for infected animals without PPE</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_3', '3', this)"><span class="option-dot"></span><span class="option-label">Soil contaminated with anthrax germs</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_3', '4', this)"><span class="option-dot"></span><span class="option-label">Direct contact with anthrax patient</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_3', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">4</span>How does anthrax spread among animals?</label>
-        <div class="options inline" id="f_k4">
-          <div class="option-item" onclick="selectRadio('f_k4', '1', this)"><span class="option-dot"></span><span class="option-label">Contaminated soil/pasture</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k4', '2', this)"><span class="option-dot"></span><span class="option-label">Drinking clean water</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k4', '3', this)"><span class="option-dot"></span><span class="option-label">Cold weather exposure</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k4', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
+        <div class="options inline" id="knowledge_4">
+          <div class="option-item" onclick="selectRadio('knowledge_4', '1', this)"><span class="option-dot"></span><span class="option-label">Contaminated soil/pasture</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_4', '2', this)"><span class="option-dot"></span><span class="option-label">Drinking clean water</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_4', '3', this)"><span class="option-dot"></span><span class="option-label">Cold weather exposure</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_4', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">5</span>Can ducks/chickens be infected with anthrax?</label>
-        <div class="options inline" id="f_k5">
-          <div class="option-item" onclick="selectRadio('f_k5', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k5', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+        <div class="options inline" id="knowledge_5">
+          <div class="option-item" onclick="selectRadio('knowledge_5', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_5', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">6</span>Symptoms in poultry?</label>
-        <div class="options inline" id="f_k6">
-          <div class="option-item" onclick="selectRadio('f_k6', '1', this)"><span class="option-dot"></span><span class="option-label">Swelling/Edema in throat</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k6', '2', this)"><span class="option-dot"></span><span class="option-label">Hemorrhagic enteritis</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k6', '3', this)"><span class="option-dot"></span><span class="option-label">Blood on internal organs</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k6', '4', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">4</span></div>
+        <div class="options inline" id="knowledge_6">
+          <div class="option-item" onclick="selectRadio('knowledge_6', '1', this)"><span class="option-dot"></span><span class="option-label">Swelling/Edema in throat</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_6', '2', this)"><span class="option-dot"></span><span class="option-label">Hemorrhagic enteritis</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_6', '3', this)"><span class="option-dot"></span><span class="option-label">Blood on internal organs</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_6', '4', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">7</span>Can infection spread from poultry to humans?</label>
-        <div class="options inline" id="f_k7">
-          <div class="option-item" onclick="selectRadio('f_k7', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k7', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+        <div class="options inline" id="knowledge_7">
+          <div class="option-item" onclick="selectRadio('knowledge_7', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_7', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">8</span>Common symptoms in humans?</label>
-        <div class="options" id="f_k8">
-          <div class="option-item" onclick="selectRadio('f_k8', '1', this)"><span class="option-dot"></span><span class="option-label">Skin rash, painless black lesion</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k8', '2', this)"><span class="option-dot"></span><span class="option-label">Abdominal pain, blood vomiting, diarrhea</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k8', '3', this)"><span class="option-dot"></span><span class="option-label">Fever and breathing difficulty</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k8', '4', this)"><span class="option-dot"></span><span class="option-label">Joint pain</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_k8', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+        <div class="options" id="knowledge_8">
+          <div class="option-item" onclick="selectRadio('knowledge_8', '1', this)"><span class="option-dot"></span><span class="option-label">Skin rash, painless black lesion</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_8', '2', this)"><span class="option-dot"></span><span class="option-label">Abdominal pain, blood vomiting, diarrhea</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_8', '3', this)"><span class="option-dot"></span><span class="option-label">Fever and breathing difficulty</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_8', '4', this)"><span class="option-dot"></span><span class="option-label">Joint pain</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_8', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">9</span>Common symptoms in animals?</label>
-        <div class="options" id="f_k9">
-          <div class="option-item" onclick="selectRadio('f_k9', '1', this)"><span class="option-dot"></span><span class="option-label">Sudden death with bleeding from mouth/nose</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k9', '2', this)"><span class="option-dot"></span><span class="option-label">Gradual weight loss only</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k9', '3', this)"><span class="option-dot"></span><span class="option-label">Cough and nasal discharge</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k9', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
+        <div class="options" id="knowledge_9">
+          <div class="option-item" onclick="selectRadio('knowledge_9', '1', this)"><span class="option-dot"></span><span class="option-label">Sudden death with bleeding from mouth/nose</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_9', '2', this)"><span class="option-dot"></span><span class="option-label">Gradual weight loss only</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_9', '3', this)"><span class="option-dot"></span><span class="option-label">Cough and nasal discharge</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_9', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">10</span>Prevention measures in animals?</label>
-        <div class="options" id="f_k10">
-          <div class="option-item" onclick="selectRadio('f_k10', '1', this)"><span class="option-dot"></span><span class="option-label">Regular vaccination</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k10', '2', this)"><span class="option-dot"></span><span class="option-label">Supply clean feed and water</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k10', '3', this)"><span class="option-dot"></span><span class="option-label">Keep cattle shed clean</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k10', '4', this)"><span class="option-dot"></span><span class="option-label">Separate infected from healthy</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_k10', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+        <div class="options" id="knowledge_10">
+          <div class="option-item" onclick="selectRadio('knowledge_10', '1', this)"><span class="option-dot"></span><span class="option-label">Regular vaccination</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_10', '2', this)"><span class="option-dot"></span><span class="option-label">Supply clean feed and water</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_10', '3', this)"><span class="option-dot"></span><span class="option-label">Keep cattle shed clean</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_10', '4', this)"><span class="option-dot"></span><span class="option-label">Separate infected from healthy</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_10', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">11</span>Prevention in humans?</label>
-        <div class="options" id="f_k11">
-          <div class="option-item" onclick="selectRadio('f_k11', '1', this)"><span class="option-dot"></span><span class="option-label">Avoid slaughtering sick/dead animals</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k11', '2', this)"><span class="option-dot"></span><span class="option-label">Avoid raw/undercooked milk and meat</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k11', '3', this)"><span class="option-dot"></span><span class="option-label">Avoid bare-hand contact with sick animals</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k11', '4', this)"><span class="option-dot"></span><span class="option-label">Dispose of dead animals properly</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_k11', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+        <div class="options" id="knowledge_11">
+          <div class="option-item" onclick="selectRadio('knowledge_11', '1', this)"><span class="option-dot"></span><span class="option-label">Avoid slaughtering sick/dead animals</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_11', '2', this)"><span class="option-dot"></span><span class="option-label">Avoid raw/undercooked milk and meat</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_11', '3', this)"><span class="option-dot"></span><span class="option-label">Avoid bare-hand contact with sick animals</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_11', '4', this)"><span class="option-dot"></span><span class="option-label">Dispose of dead animals properly</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_11', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">12</span>Ever received health education on anthrax?</label>
-        <div class="options inline" id="f_k12">
-          <div class="option-item" onclick="selectRadio('f_k12', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k12', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+        <div class="options inline" id="knowledge_12">
+          <div class="option-item" onclick="selectRadio('knowledge_12', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_12', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">13</span>If yes, from where?</label>
-        <div class="options inline" id="f_k13">
-          <div class="option-item" onclick="selectRadio('f_k13', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Health Programs</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_k13', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Hospitals</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_k13', '3', this)"><span class="option-dot"></span><span class="option-label">Family/Neighbors</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_k13', '4', this)"><span class="option-dot"></span><span class="option-label">Social Media</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_k13', '5', this)"><span class="option-dot"></span><span class="option-label">TV/Radio</span><span class="option-code">5</span></div>
+        <div class="options inline" id="knowledge_13">
+          <div class="option-item" onclick="selectRadio('knowledge_13', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Health Programs</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_13', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Hospitals</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_13', '3', this)"><span class="option-dot"></span><span class="option-label">Family/Neighbors</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_13', '4', this)"><span class="option-dot"></span><span class="option-label">Social Media</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('knowledge_13', '5', this)"><span class="option-dot"></span><span class="option-label">TV/Radio</span><span class="option-code">5</span></div>
         </div>
       </div>
     </div>
@@ -757,88 +345,88 @@
       <div class="section-title">Section 4 — Attitude Related Questions <span class="section-badge">S4</span></div>
       <div class="field">
         <label><span class="qnum">1</span>How serious is anthrax?</label>
-        <div class="options inline" id="f_a1">
-          <div class="option-item" onclick="selectRadio('f_a1', '1', this)"><span class="option-dot"></span><span class="option-label">Very serious / Fatal</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a1', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately serious</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_a1', '3', this)"><span class="option-dot"></span><span class="option-label">Mild disease</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_a1', '4', this)"><span class="option-dot"></span><span class="option-label">Not serious</span><span class="option-code">4</span></div>
+        <div class="options inline" id="attitude_1">
+          <div class="option-item" onclick="selectRadio('attitude_1', '1', this)"><span class="option-dot"></span><span class="option-label">Very serious / Fatal</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_1', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately serious</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_1', '3', this)"><span class="option-dot"></span><span class="option-label">Mild disease</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_1', '4', this)"><span class="option-dot"></span><span class="option-label">Not serious</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">2</span>Likelihood of anthrax in humans from livestock?</label>
-        <div class="options inline" id="f_a2">
-          <div class="option-item" onclick="selectRadio('f_a2', '1', this)"><span class="option-dot"></span><span class="option-label">Very High</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a2', '2', this)"><span class="option-dot"></span><span class="option-label">Moderate</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_a2', '3', this)"><span class="option-dot"></span><span class="option-label">Low</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_a2', '4', this)"><span class="option-dot"></span><span class="option-label">No risk</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_a2', '5', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">5</span></div>
+        <div class="options inline" id="attitude_2">
+          <div class="option-item" onclick="selectRadio('attitude_2', '1', this)"><span class="option-dot"></span><span class="option-label">Very High</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_2', '2', this)"><span class="option-dot"></span><span class="option-label">Moderate</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_2', '3', this)"><span class="option-dot"></span><span class="option-label">Low</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_2', '4', this)"><span class="option-dot"></span><span class="option-label">No risk</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_2', '5', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">3</span>Anthrax can spread through milk from infected animals?</label>
-        <div class="options inline" id="f_a3">
-          <div class="option-item" onclick="selectRadio('f_a3', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a3', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a3', '2', this)"><span class="option-dot"></span><span class="option-label">Not Sure</span><span class="option-code">2</span></div>
+        <div class="options inline" id="attitude_3">
+          <div class="option-item" onclick="selectRadio('attitude_3', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_3', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_3', '2', this)"><span class="option-dot"></span><span class="option-label">Not Sure</span><span class="option-code">2</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">4</span>Grazing land is a source of infection?</label>
-        <div class="options inline" id="f_a4">
-          <div class="option-item" onclick="selectRadio('f_a4', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a4', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a4', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
+        <div class="options inline" id="attitude_4">
+          <div class="option-item" onclick="selectRadio('attitude_4', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_4', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_4', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">5</span>Anthrax can be prevented by vaccination?</label>
-        <div class="options inline" id="f_a5">
-          <div class="option-item" onclick="selectRadio('f_a5', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a5', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a5', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
+        <div class="options inline" id="attitude_5">
+          <div class="option-item" onclick="selectRadio('attitude_5', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_5', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_5', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">6</span>Importance of regular vaccination?</label>
-        <div class="options inline" id="f_a6">
-          <div class="option-item" onclick="selectRadio('f_a6', '1', this)"><span class="option-dot"></span><span class="option-label">Very Important</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a6', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately Important</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_a6', '3', this)"><span class="option-dot"></span><span class="option-label">Less Important</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_a6', '4', this)"><span class="option-dot"></span><span class="option-label">Not Important</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_a6', '5', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">5</span></div>
+        <div class="options inline" id="attitude_6">
+          <div class="option-item" onclick="selectRadio('attitude_6', '1', this)"><span class="option-dot"></span><span class="option-label">Very Important</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_6', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately Important</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_6', '3', this)"><span class="option-dot"></span><span class="option-label">Less Important</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_6', '4', this)"><span class="option-dot"></span><span class="option-label">Not Important</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_6', '5', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">7</span>Hygiene can reduce anthrax risk?</label>
-        <div class="options inline" id="f_a7">
-          <div class="option-item" onclick="selectRadio('f_a7', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a7', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a7', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
+        <div class="options inline" id="attitude_7">
+          <div class="option-item" onclick="selectRadio('attitude_7', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_7', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_7', '2', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">2</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">8</span>Anthrax controlled by proper disposal of dead animals?</label>
-        <div class="options inline" id="f_a8">
-          <div class="option-item" onclick="selectRadio('f_a8', '1', this)"><span class="option-dot"></span><span class="option-label">Agree</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a8', '0', this)"><span class="option-dot"></span><span class="option-label">Disagree</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a8', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
+        <div class="options inline" id="attitude_8">
+          <div class="option-item" onclick="selectRadio('attitude_8', '1', this)"><span class="option-dot"></span><span class="option-label">Agree</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_8', '0', this)"><span class="option-dot"></span><span class="option-label">Disagree</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_8', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">9</span>Trust in government livestock treatment services?</label>
-        <div class="options inline" id="f_a9">
-          <div class="option-item" onclick="selectRadio('f_a9', '1', this)"><span class="option-dot"></span><span class="option-label">Full Trust</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a9', '2', this)"><span class="option-dot"></span><span class="option-label">Low Trust</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_a9', '0', this)"><span class="option-dot"></span><span class="option-label">No Trust</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a9', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
+        <div class="options inline" id="attitude_9">
+          <div class="option-item" onclick="selectRadio('attitude_9', '1', this)"><span class="option-dot"></span><span class="option-label">Full Trust</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_9', '2', this)"><span class="option-dot"></span><span class="option-label">Low Trust</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_9', '0', this)"><span class="option-dot"></span><span class="option-label">No Trust</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_9', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">10</span>Health education helps control anthrax outbreaks?</label>
-        <div class="options inline" id="f_a10">
-          <div class="option-item" onclick="selectRadio('f_a10', '1', this)"><span class="option-dot"></span><span class="option-label">Agree</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_a10', '0', this)"><span class="option-dot"></span><span class="option-label">Disagree</span><span class="option-code">0</span></div>
-          <div class="option-item" onclick="selectRadio('f_a10', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
+        <div class="options inline" id="attitude_10">
+          <div class="option-item" onclick="selectRadio('attitude_10', '1', this)"><span class="option-dot"></span><span class="option-label">Agree</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_10', '0', this)"><span class="option-dot"></span><span class="option-label">Disagree</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectRadio('attitude_10', '3', this)"><span class="option-dot"></span><span class="option-label">Don't want to answer</span><span class="option-code">3</span></div>
         </div>
       </div>
     </div>
@@ -848,120 +436,120 @@
       <div class="section-title">Section 4.1 — Practice Related Questions <span class="section-badge">S4.1</span></div>
       <div class="field">
         <label><span class="qnum">1</span>If livestock/poultry suddenly becomes sick?</label>
-        <div class="options inline" id="f_p1">
-          <div class="option-item" onclick="selectRadio('f_p1', '1', this)"><span class="option-dot"></span><span class="option-label">Take to veterinarian</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p1', '2', this)"><span class="option-dot"></span><span class="option-label">Home treatment</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p1', '3', this)"><span class="option-dot"></span><span class="option-label">Slaughter it</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p1', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
+        <div class="options inline" id="practice_1">
+          <div class="option-item" onclick="selectRadio('practice_1', '1', this)"><span class="option-dot"></span><span class="option-label">Take to veterinarian</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_1', '2', this)"><span class="option-dot"></span><span class="option-label">Home treatment</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_1', '3', this)"><span class="option-dot"></span><span class="option-label">Slaughter it</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_1', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">2</span>Protective measures when handling sick/dead animals?</label>
-        <div class="options inline" id="f_p2">
-          <div class="option-item" onclick="selectRadio('f_p2', '1', this)"><span class="option-dot"></span><span class="option-label">Use gloves/polythene</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p2', '2', this)"><span class="option-dot"></span><span class="option-label">Bare hands</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p2', '3', this)"><span class="option-dot"></span><span class="option-label">Only wash hands</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p2', '0', this)"><span class="option-dot"></span><span class="option-label">No protection</span><span class="option-code">0</span></div>
+        <div class="options inline" id="practice_2">
+          <div class="option-item" onclick="selectRadio('practice_2', '1', this)"><span class="option-dot"></span><span class="option-label">Use gloves/polythene</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_2', '2', this)"><span class="option-dot"></span><span class="option-label">Bare hands</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_2', '3', this)"><span class="option-dot"></span><span class="option-label">Only wash hands</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_2', '0', this)"><span class="option-dot"></span><span class="option-label">No protection</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">3</span>If livestock/poultry dies suddenly?</label>
-        <div class="options inline" id="f_p3">
-          <div class="option-item" onclick="selectRadio('f_p3', '1', this)"><span class="option-dot"></span><span class="option-label">Inform livestock/vet officer</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p3', '2', this)"><span class="option-dot"></span><span class="option-label">Bury in a pit</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p3', '3', this)"><span class="option-dot"></span><span class="option-label">Discuss with neighbors</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p3', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
+        <div class="options inline" id="practice_3">
+          <div class="option-item" onclick="selectRadio('practice_3', '1', this)"><span class="option-dot"></span><span class="option-label">Inform livestock/vet officer</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_3', '2', this)"><span class="option-dot"></span><span class="option-label">Bury in a pit</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_3', '3', this)"><span class="option-dot"></span><span class="option-label">Discuss with neighbors</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_3', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">4</span>How do you dispose of dead livestock/poultry?</label>
-        <div class="options inline" id="f_p4">
-          <div class="option-item" onclick="selectRadio('f_p4', '1', this)"><span class="option-dot"></span><span class="option-label">Bury in pit ASAP</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p4', '2', this)"><span class="option-dot"></span><span class="option-label">Burn/Incinerate</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p4', '3', this)"><span class="option-dot"></span><span class="option-label">Throw in river/water</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p4', '4', this)"><span class="option-dot"></span><span class="option-label">Throw in open place</span><span class="option-code">4</span></div>
+        <div class="options inline" id="practice_4">
+          <div class="option-item" onclick="selectRadio('practice_4', '1', this)"><span class="option-dot"></span><span class="option-label">Bury in pit ASAP</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_4', '2', this)"><span class="option-dot"></span><span class="option-label">Burn/Incinerate</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_4', '3', this)"><span class="option-dot"></span><span class="option-label">Throw in river/water</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_4', '4', this)"><span class="option-dot"></span><span class="option-label">Throw in open place</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">5</span>Measures to prevent infection from farm?</label>
-        <div class="options" id="f_p5">
-          <div class="option-item" onclick="selectRadio('f_p5', '1', this)"><span class="option-dot"></span><span class="option-label">Wear separate shoes and clothes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p5', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict visitor entry</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p5', '3', this)"><span class="option-dot"></span><span class="option-label">Disinfect hands/feet at entry/exit</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p5', '4', this)"><span class="option-dot"></span><span class="option-label">Prevent wildlife/birds/pets</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_p5', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+        <div class="options" id="practice_5">
+          <div class="option-item" onclick="selectRadio('practice_5', '1', this)"><span class="option-dot"></span><span class="option-label">Wear separate shoes and clothes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_5', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict visitor entry</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_5', '3', this)"><span class="option-dot"></span><span class="option-label">Disinfect hands/feet at entry/exit</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_5', '4', this)"><span class="option-dot"></span><span class="option-label">Prevent wildlife/birds/pets</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('practice_5', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">6</span>Steps to maintain farm cleanliness?</label>
-        <div class="options" id="f_p6">
-          <div class="option-item" onclick="selectRadio('f_p6', '1', this)"><span class="option-dot"></span><span class="option-label">Remove dung/manure daily</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p6', '2', this)"><span class="option-dot"></span><span class="option-label">Dry surfaces after cleaning</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p6', '3', this)"><span class="option-dot"></span><span class="option-label">Apply specific disinfectant</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p6', '4', this)"><span class="option-dot"></span><span class="option-label">Clean farm vehicles regularly</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_p6', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
+        <div class="options" id="practice_6">
+          <div class="option-item" onclick="selectRadio('practice_6', '1', this)"><span class="option-dot"></span><span class="option-label">Remove dung/manure daily</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_6', '2', this)"><span class="option-dot"></span><span class="option-label">Dry surfaces after cleaning</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_6', '3', this)"><span class="option-dot"></span><span class="option-label">Apply specific disinfectant</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_6', '4', this)"><span class="option-dot"></span><span class="option-label">Clean farm vehicles regularly</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('practice_6', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">7</span>How often do you clean the farm?</label>
-        <div class="options inline" id="f_p7">
-          <div class="option-item" onclick="selectRadio('f_p7', '1', this)"><span class="option-dot"></span><span class="option-label">Daily</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p7', '2', this)"><span class="option-dot"></span><span class="option-label">Weekly</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p7', '3', this)"><span class="option-dot"></span><span class="option-label">After each production cycle</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p7', '4', this)"><span class="option-dot"></span><span class="option-label">Sometimes</span><span class="option-code">4</span></div>
+        <div class="options inline" id="practice_7">
+          <div class="option-item" onclick="selectRadio('practice_7', '1', this)"><span class="option-dot"></span><span class="option-label">Daily</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_7', '2', this)"><span class="option-dot"></span><span class="option-label">Weekly</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_7', '3', this)"><span class="option-dot"></span><span class="option-label">After each production cycle</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_7', '4', this)"><span class="option-dot"></span><span class="option-label">Sometimes</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">8</span>Method used to disinfect farm?</label>
-        <div class="options inline" id="f_p8">
-          <div class="option-item" onclick="selectRadio('f_p8', '1', this)"><span class="option-dot"></span><span class="option-label">Regular disinfectant spray</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p8', '2', this)"><span class="option-dot"></span><span class="option-label">Only footbath</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p8', '3', this)"><span class="option-dot"></span><span class="option-label">Fumigation</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p8', '4', this)"><span class="option-dot"></span><span class="option-label">Only water</span><span class="option-code">4</span></div>
+        <div class="options inline" id="practice_8">
+          <div class="option-item" onclick="selectRadio('practice_8', '1', this)"><span class="option-dot"></span><span class="option-label">Regular disinfectant spray</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_8', '2', this)"><span class="option-dot"></span><span class="option-label">Only footbath</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_8', '3', this)"><span class="option-dot"></span><span class="option-label">Fumigation</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_8', '4', this)"><span class="option-dot"></span><span class="option-label">Only water</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">9</span>Protective measures while cleaning farm?</label>
-        <div class="options inline" id="f_p9">
-          <div class="option-item" onclick="selectRadio('f_p9', '1', this)"><span class="option-dot"></span><span class="option-label">Use boots and mask</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p9', '2', this)"><span class="option-dot"></span><span class="option-label">Use separate clothes</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p9', '3', this)"><span class="option-dot"></span><span class="option-label">Wash hands with soap/disinfectant</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p9', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
+        <div class="options inline" id="practice_9">
+          <div class="option-item" onclick="selectRadio('practice_9', '1', this)"><span class="option-dot"></span><span class="option-label">Use boots and mask</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_9', '2', this)"><span class="option-dot"></span><span class="option-label">Use separate clothes</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_9', '3', this)"><span class="option-dot"></span><span class="option-label">Wash hands with soap/disinfectant</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_9', '0', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">10</span>Measures for feed safety?</label>
-        <div class="options" id="f_p10">
-          <div class="option-item" onclick="selectRadio('f_p10', '1', this)"><span class="option-dot"></span><span class="option-label">Keep feed storage covered</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p10', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict rats/birds/wildlife from feed</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p10', '3', this)"><span class="option-dot"></span><span class="option-label">Regularly clean water pots/tanks</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p10', '4', this)"><span class="option-dot"></span><span class="option-label">Clean surrounding between feedings</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('f_p10', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
+        <div class="options" id="practice_10">
+          <div class="option-item" onclick="selectRadio('practice_10', '1', this)"><span class="option-dot"></span><span class="option-label">Keep feed storage covered</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_10', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict rats/birds/wildlife from feed</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_10', '3', this)"><span class="option-dot"></span><span class="option-label">Regularly clean water pots/tanks</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_10', '4', this)"><span class="option-dot"></span><span class="option-label">Clean surrounding between feedings</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectRadio('practice_10', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">11</span>Do you vaccinate livestock/poultry regularly?</label>
-        <div class="options inline" id="f_p11">
-          <div class="option-item" onclick="selectRadio('f_p11', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p11', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
+        <div class="options inline" id="practice_11">
+          <div class="option-item" onclick="selectRadio('practice_11', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_11', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">12</span>If no, why not?</label>
-        <div class="options" id="f_p12">
-          <div class="option-item" onclick="selectRadio('f_p12', '1', this)"><span class="option-dot"></span><span class="option-label">Vaccine not easily available</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p12', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary center is far</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p12', '3', this)"><span class="option-dot"></span><span class="option-label">Travel/purchase cost is high</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p12', '4', this)"><span class="option-dot"></span><span class="option-label">Animal health workers not sincere</span><span class="option-code">4</span></div>
+        <div class="options" id="practice_12">
+          <div class="option-item" onclick="selectRadio('practice_12', '1', this)"><span class="option-dot"></span><span class="option-label">Vaccine not easily available</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_12', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary center is far</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_12', '3', this)"><span class="option-dot"></span><span class="option-label">Travel/purchase cost is high</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_12', '4', this)"><span class="option-dot"></span><span class="option-label">Animal health workers not sincere</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">13</span>From where do you collect anthrax vaccine?</label>
-        <div class="options inline" id="f_p13">
-          <div class="option-item" onclick="selectRadio('f_p13', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Animal Hospital</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('f_p13', '2', this)"><span class="option-dot"></span><span class="option-label">NGO</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('f_p13', '3', this)"><span class="option-dot"></span><span class="option-label">Pharmacy</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('f_p13', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
+        <div class="options inline" id="practice_13">
+          <div class="option-item" onclick="selectRadio('practice_13', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Animal Hospital</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('practice_13', '2', this)"><span class="option-dot"></span><span class="option-label">NGO</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('practice_13', '3', this)"><span class="option-dot"></span><span class="option-label">Pharmacy</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectRadio('practice_13', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
         </div>
       </div>
     </div>
@@ -994,7 +582,6 @@
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn btn-secondary btn-sm" onclick="loadFromSheet()" style="font-size:12px;">🔄 Refresh from Sheet</button>
         <button class="btn btn-secondary btn-sm" onclick="exportCSV()" style="font-size:12px;">📄 CSV</button>
-        <button class="btn btn-secondary btn-sm" onclick="exportExcel()" style="font-size:12px;">📊 Excel</button>
         <button class="btn btn-secondary btn-sm" onclick="exportSPSS()" style="font-size:12px;">📉 SPSS</button>
       </div>
     </div>
@@ -1046,9 +633,6 @@
         <div class="export-grid">
           <button class="export-btn export-csv" onclick="exportCSV()">
             <span class="icon">📄</span>CSV
-          </button>
-          <button class="export-btn export-xlsx" onclick="exportExcel()">
-            <span class="icon">📊</span>Excel
           </button>
           <button class="export-btn export-spss" onclick="exportSPSS()">
             <span class="icon">📉</span>SPSS
@@ -1117,7 +701,7 @@ function selectRadio(fieldId, value, el) {
 }
 
 function updateRespId() {
-  const val = document.getElementById('f_id').value.trim();
+  const val = document.getElementById('particulars_id').value.trim();
   document.getElementById('resp-id-display').textContent = val || '—';
 }
 
@@ -1137,7 +721,7 @@ function navSection(dir) {
 }
 
 function updateProgress() {
-  const textFields = ['f_id','f_date','f_place','f_name','f_address','f_phone','f_age','f_income','f_howlong','f_ls_num','f_pt_num'];
+  const textFields = ['particulars_id','background_1','background_6','background_10','livestock_2','livestock_4'];
   let filled = Object.keys(FIELD_VALUES).length;
   textFields.forEach(id => {
     const el = document.getElementById(id);
@@ -1150,7 +734,7 @@ function updateProgress() {
 }
 
 function getFormData() {
-  const textFields = ['f_id','f_date','f_place','f_name','f_address','f_phone','f_age','f_income','f_howlong','f_ls_num','f_pt_num'];
+  const textFields = ['particulars_id','background_1','background_6','background_10','livestock_2','livestock_4'];
   const data = {...FIELD_VALUES};
   textFields.forEach(id => {
     const el = document.getElementById(id);
@@ -1161,11 +745,11 @@ function getFormData() {
 
 async function saveRecord() {
   const data = getFormData();
-  if (!data.f_id) { showToast('⚠️ Please enter a Respondent ID first!'); return; }
-  const existing = records.findIndex(r => r.f_id === data.f_id);
+  if (!data.particulars_id) { showToast('⚠️ Please enter a Respondent ID first!'); return; }
+  const existing = records.findIndex(r => r.particulars_id === data.particulars_id);
   const isUpdate = existing >= 0;
   if (isUpdate) {
-    if (!confirm('Record ' + data.f_id + ' already exists. Overwrite?')) return;
+    if (!confirm('Record ' + data.particulars_id + ' already exists. Overwrite?')) return;
   }
 
   // ── Save to Google Sheet FIRST ──
@@ -1186,12 +770,12 @@ async function saveRecord() {
   localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
   renderTable();
   updateCounts();
-  showToast(isUpdate ? '✅ Record ' + data.f_id + ' updated in Google Sheet!' : '✅ Record ' + data.f_id + ' saved to Google Sheet!');
+  showToast(isUpdate ? '✅ Record ' + data.particulars_id + ' updated in Google Sheet!' : '✅ Record ' + data.particulars_id + ' saved to Google Sheet!');
 }
 
 async function deleteRecord(id) {
   if (!confirm('Delete record ' + id + '?')) return;
-  records = records.filter(r => r.f_id !== id);
+  records = records.filter(r => r.particulars_id !== id);
   localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
   renderTable();
   updateCounts();
@@ -1205,7 +789,7 @@ async function deleteRecord(id) {
 function clearForm() {
   if (records.length > 0 && !confirm('Clear current form? Saved records will remain.')) return;
   document.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
-  ['f_id','f_date','f_place','f_name','f_address','f_phone','f_age','f_income','f_howlong','f_ls_num','f_pt_num'].forEach(id => {
+  ['particulars_id','background_1','background_6','background_10','livestock_2','livestock_4'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -1216,12 +800,11 @@ function clearForm() {
 }
 
 function updateCounts() {
-  document.getElementById('total-count').textContent = records.length;
-  document.getElementById('rec-count').textContent = records.length;
-  const tabBadge = document.getElementById('tab-rec-count');
-  if (tabBadge) tabBadge.textContent = records.length;
-  const mainCount = document.getElementById('rec-count-main');
-  if (mainCount) mainCount.textContent = records.length;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('total-count', records.length);
+  set('rec-count', records.length);
+  set('tab-rec-count', records.length);
+  set('rec-count-main', records.length);
 }
 
 function renderTable() {
@@ -1232,18 +815,14 @@ function renderTable() {
     return;
   }
   const genderMap = {'1':'Male','2':'Female'};
-  const eduMap = {'1':'No Education','2':'Primary','3':'Secondary','4':'Higher Secondary','5':'Graduate+'};
-  const occMap = {'1':'Farmer','2':'Housewife','3':'Business','4':'Service','5':'Other'};
+  const eduMap = {'0':'Illiterate','1':'Primary','2':'Secondary','3':'College/University'};
+  const occMap = {'1':'Day Labourer','2':'Farmer','3':'Business','4':'Service','5':'Others'};
   let html = `<table class="data-table" style="width:100%;font-size:12.5px;">
     <thead><tr>
       <th style="min-width:80px">#</th>
       <th style="min-width:90px">ID</th>
-      <th style="min-width:90px">Date</th>
-      <th style="min-width:80px">Place</th>
-      <th style="min-width:140px">Name</th>
       <th style="min-width:50px">Age</th>
       <th style="min-width:70px">Gender</th>
-      <th style="min-width:80px">Phone</th>
       <th style="min-width:110px">Education</th>
       <th style="min-width:90px">Occupation</th>
       <th style="min-width:80px">Income</th>
@@ -1257,29 +836,25 @@ function renderTable() {
 
   records.forEach((r, i) => {
     // Calculate KAP scores
-    const kKeys = ['f_k1','f_k2','f_k3','f_k4','f_k5','f_k6','f_k7','f_k8','f_k9','f_k10','f_k11','f_k12','f_k13'];
-    const aKeys = ['f_a1','f_a2','f_a3','f_a4','f_a5','f_a6','f_a7','f_a8','f_a9','f_a10'];
-    const pKeys = ['f_p1','f_p2','f_p3','f_p4','f_p5','f_p6','f_p7','f_p8','f_p9','f_p10','f_p11'];
+    const kKeys = ['knowledge_1','knowledge_2','knowledge_3','knowledge_4','knowledge_5','knowledge_6','knowledge_7','knowledge_8','knowledge_9','knowledge_10','knowledge_11','knowledge_12','knowledge_13'];
+    const aKeys = ['attitude_1','attitude_2','attitude_3','attitude_4','attitude_5','attitude_6','attitude_7','attitude_8','attitude_9','attitude_10'];
+    const pKeys = ['practice_1','practice_2','practice_3','practice_4','practice_5','practice_6','practice_7','practice_8','practice_9','practice_10','practice_11'];
     const score = (keys) => keys.filter(k => r[k] === '1').length + '/' + keys.length;
 
     html += `<tr>
       <td style="color:var(--gray-400);text-align:center;">${i+1}</td>
-      <td><strong>${r.f_id||'—'}</strong></td>
-      <td>${r.f_date||'—'}</td>
-      <td>${r.f_place||'—'}</td>
-      <td>${r.f_name||'—'}</td>
-      <td style="text-align:center;">${r.f_age||'—'}</td>
-      <td style="text-align:center;">${genderMap[r.f_gender]||'—'}</td>
-      <td>${r.f_phone||'—'}</td>
-      <td>${eduMap[r.f_edu]||'—'}</td>
-      <td>${occMap[r.f_occ]||'—'}</td>
-      <td>${r.f_income ? r.f_income+' ৳' : '—'}</td>
-      <td style="text-align:center;">${r.f_outbreak==='1'?'<span style="color:#ef4444">Yes</span>':'<span style="color:#22c55e">No</span>'}</td>
-      <td style="text-align:center;">${r.f_training==='1'?'<span style="color:#22c55e">Yes</span>':'<span style="color:#ef4444">No</span>'}</td>
+      <td><strong>${r.particulars_id||'—'}</strong></td>
+      <td style="text-align:center;">${r.background_1||'—'}</td>
+      <td style="text-align:center;">${genderMap[r.background_2]||'—'}</td>
+      <td>${eduMap[r.background_4]||'—'}</td>
+      <td>${occMap[r.background_5]||'—'}</td>
+      <td>${r.background_6 ? r.background_6+' ৳' : '—'}</td>
+      <td style="text-align:center;">${r.background_8==='1'?'<span style="color:#ef4444">Yes</span>':'<span style="color:#22c55e">No</span>'}</td>
+      <td style="text-align:center;">${r.background_13==='1'?'<span style="color:#22c55e">Yes</span>':'<span style="color:#ef4444">No</span>'}</td>
       <td style="text-align:center;font-weight:600;color:#1a73e8;">${score(kKeys)}</td>
       <td style="text-align:center;font-weight:600;color:#9333ea;">${score(aKeys)}</td>
       <td style="text-align:center;font-weight:600;color:#f59e0b;">${score(pKeys)}</td>
-      <td><button class="del-btn" onclick="deleteRecord('${r.f_id}')">✕</button></td>
+      <td><button class="del-btn" onclick="deleteRecord('${r.particulars_id}')">✕</button></td>
     </tr>`;
   });
   html += '</tbody></table>';
@@ -1300,66 +875,131 @@ function exportCSV() {
   showToast('✅ CSV exported (' + records.length + ' records)');
 }
 
-// Excel export (CSV with BOM for Excel compatibility)
-function exportExcel() {
-  if (records.length === 0) { showToast('No records to export!'); return; }
-  const keys = getAllKeys();
-  const header = keys.join('\t');
-  const rows = records.map(r => keys.map(k => r[k] !== undefined ? r[k] : '').join('\t'));
-  const content = '\uFEFF' + [header, ...rows].join('\n');
-  downloadFile('anthrax_kap_data.xls', content, 'application/vnd.ms-excel');
-  showToast('✅ Excel file exported (' + records.length + ' records)');
-}
-
-// SPSS Syntax export
+// SPSS Syntax export — includes VARIABLE LABELS and VALUE LABELS for every coded question
 function exportSPSS() {
   if (records.length === 0) { showToast('No records to export!'); return; }
   const keys = getAllKeys();
-  let syntax = `* SPSS SYNTAX FILE - Anthrax KAP Survey Data\n`;
-  syntax += `* NIPSOM - Generated on ${new Date().toLocaleDateString()}\n`;
-  syntax += `* Total records: ${records.length}\n\n`;
+  const esc = s => String(s).replace(/'/g, "''");
+
+  let syntax = `* SPSS SYNTAX FILE — Anthrax KAP Survey Data.\n`;
+  syntax += `* Title: Knowledge Attitude and Practices regarding Anthrax among Rural Dairy and Poultry Farmers.\n`;
+  syntax += `* NIPSOM — Generated on ${new Date().toLocaleDateString()}.\n`;
+  syntax += `* Total records: ${records.length}.\n\n`;
+
   syntax += `DATA LIST FREE\n  / ${keys.join(' ')} .\nBEGIN DATA.\n`;
   records.forEach(r => {
     const row = keys.map(k => {
-      const v = r[k] !== undefined ? r[k] : '.';
-      if (typeof v === 'string' && isNaN(v) && v !== '.') return `'${v.replace(/'/g,"''")}'`;
-      return v || '.';
+      const v = r[k] !== undefined && r[k] !== '' ? r[k] : '.';
+      if (typeof v === 'string' && isNaN(v) && v !== '.') return `'${esc(v)}'`;
+      return v;
     });
     syntax += row.join(' ') + '\n';
   });
   syntax += `END DATA.\n\n`;
-  syntax += `* Variable labels\nVARIABLE LABELS\n`;
+
   const varLabels = {
-    f_id:'Respondent ID', f_date:'Date of Collection', f_place:'Place', f_name:'Name',
-    f_age:'Age', f_gender:'Gender', f_religion:'Religion', f_edu:'Education',
-    f_occ:'Occupation', f_income:'Monthly Income', f_src:'Source of Knowledge',
-    f_outbreak:'Outbreak in Area', f_fam_suf:'Family Suffered', f_fam_inf:'Family Infected',
-    f_ls_inf:'Livestock Infected', f_training:'Training Received', f_vet_access:'Vet Accessibility',
-    f_nature:'Participant Nature', f_farmtype:'Farm Type', f_range:'Farm Scale',
-    f_ls_type:'Livestock Type', f_ls_num:'No. of Livestock', f_pt_type:'Poultry Type', f_pt_num:'No. of Poultry',
-    f_k1:'Know anthrax', f_k2:'Cause of anthrax', f_k3:'Spread in humans', f_k4:'Spread in animals',
-    f_k5:'Poultry can be infected', f_k6:'Poultry symptoms', f_k7:'Poultry to human spread',
-    f_k8:'Human symptoms', f_k9:'Animal symptoms', f_k10:'Prevention in animals',
-    f_k11:'Prevention in humans', f_k12:'Health education received', f_k13:'Source of health education',
-    f_a1:'Seriousness of anthrax', f_a2:'Likelihood human infection', f_a3:'Spread via milk',
-    f_a4:'Grazing land as source', f_a5:'Vaccination prevents anthrax', f_a6:'Vaccination importance',
-    f_a7:'Hygiene reduces risk', f_a8:'Disposal controls anthrax', f_a9:'Trust in govt services', f_a10:'Education helps control',
-    f_p1:'Action on sick animal', f_p2:'Protective measures', f_p3:'Action on dead animal',
-    f_p4:'Disposal method', f_p5:'Infection prevention', f_p6:'Farm cleanliness steps',
-    f_p7:'Cleaning frequency', f_p8:'Disinfection method', f_p9:'Protective measures while cleaning',
-    f_p10:'Feed safety', f_p11:'Regular vaccination', f_p12:'Reason no vaccination', f_p13:'Vaccine source'
+    particulars_id:'Respondent ID',
+    background_1:'Age (years)', background_2:'Gender', background_3:'Religion', background_4:'Educational Qualification',
+    background_5:'Occupation', background_6:'Monthly Income (BDT)', background_7:'Source of Anthrax Knowledge',
+    background_8:'Anthrax outbreak in area', background_9:'Family member suffered anthrax',
+    background_10:'How long ago family suffered',
+    background_11:'Family ever infected with anthrax', background_12:'Livestock ever infected with anthrax',
+    background_13:'Training on disease transmission', background_14:'Accessibility of veterinary services',
+    farm_1:'Nature of Participant', farm_2:'Type of Farm', farm_3:'Farm Range/Scale',
+    livestock_1:'Type of Livestock', livestock_2:'Number of Livestock',
+    livestock_3:'Type of Poultry', livestock_4:'Number of Poultry',
+    knowledge_1:'Know of anthrax/torka', knowledge_2:'Cause of anthrax',
+    knowledge_3:'Spread among humans', knowledge_4:'Spread among animals',
+    knowledge_5:'Ducks/chickens can be infected', knowledge_6:'Symptoms in poultry',
+    knowledge_7:'Poultry-to-human spread', knowledge_8:'Symptoms in humans',
+    knowledge_9:'Symptoms in animals', knowledge_10:'Prevention in animals',
+    knowledge_11:'Prevention in humans', knowledge_12:'Received health education on anthrax',
+    knowledge_13:'Source of health education',
+    attitude_1:'Seriousness of anthrax', attitude_2:'Likelihood of human infection',
+    attitude_3:'Transmission via milk', attitude_4:'Grazing land as source',
+    attitude_5:'Vaccination prevents anthrax', attitude_6:'Importance of regular vaccination',
+    attitude_7:'Hygiene reduces risk', attitude_8:'Disposal controls anthrax',
+    attitude_9:'Trust in govt vet services', attitude_10:'Health education helps control',
+    practice_1:'Action on sick animal', practice_2:'Protective measures handling sick/dead',
+    practice_3:'Action on suddenly dead animal', practice_4:'Disposal method',
+    practice_5:'Infection prevention from farm', practice_6:'Farm cleanliness steps',
+    practice_7:'Cleaning frequency', practice_8:'Disinfection method',
+    practice_9:'Protective measures while cleaning', practice_10:'Feed safety measures',
+    practice_11:'Regular vaccination of livestock/poultry',
+    practice_12:'Reason for no vaccination', practice_13:'Source of anthrax vaccine'
   };
-  keys.forEach(k => {
-    if (varLabels[k]) syntax += `  ${k} '${varLabels[k]}'\n`;
+
+  syntax += `* Variable labels.\nVARIABLE LABELS\n`;
+  const labelLines = keys.filter(k => varLabels[k]).map(k => `  ${k} '${esc(varLabels[k])}'`);
+  syntax += labelLines.join('\n') + '\n.\n\n';
+
+  const yn = { '1':'Yes', '0':'No' };
+  const valueLabels = {
+    background_2: { '1':'Male', '2':'Female' },
+    background_3: { '1':'Islam', '2':'Hindu', '3':'Christian', '4':'Other' },
+    background_4: { '0':'Illiterate', '1':'Primary', '2':'Secondary', '3':'College/University' },
+    background_5: { '1':'Day Labourer', '2':'Farmer', '3':'Business', '4':'Service', '5':'Others' },
+    background_7: { '1':'Family/Friends/Neighbors', '2':'Veterinary Officer', '3':'Health Worker', '4':'TV/Newspaper', '5':'Other' },
+    background_8: yn, background_9: yn, background_11: yn, background_12: yn, background_13: yn,
+    background_14: { '1':'Very Accessible', '2':'Moderately Accessible', '3':'Poorly Accessible', '0':'Not Accessible' },
+    farm_1: { '1':'Farm Owner', '2':'Farm Worker' },
+    farm_2: { '1':'Only dairy farm', '2':'Only poultry farm', '3':'Mixed farm (cattle + poultry)' },
+    farm_3: { '1':'Backyard/small-scale', '2':'Commercial' },
+    livestock_1: { '1':'Cattle', '2':'Goat' },
+    livestock_3: { '1':'Broiler chicken', '2':'Layer chicken', '3':'Duck', '4':'Other' },
+    knowledge_1: yn,
+    knowledge_2: { '1':'Germs', '2':'Hereditary', '3':'Witchcraft', '4':"Don't know" },
+    knowledge_3: { '1':'Eating meat/milk from infected animals', '2':'Caring for infected animals without PPE', '3':'Contaminated soil', '4':'Direct contact with anthrax patient', '5':'Do not know' },
+    knowledge_4: { '1':'Grazing on contaminated soil/pasture', '2':'Drinking clean water', '3':'Exposure to cold weather', '4':"Don't know" },
+    knowledge_5: yn,
+    knowledge_6: { '1':'Throat swelling/edema', '2':'Hemorrhagic enteritis', '3':'Blood on internal organs', '4':'Do not know' },
+    knowledge_7: yn,
+    knowledge_8: { '1':'Skin rash, painless black lesion', '2':'Abdominal pain, blood vomiting, diarrhea', '3':'Fever and breathing difficulty', '4':'Joint pain', '5':'Do not know' },
+    knowledge_9: { '1':'Sudden death with bleeding from mouth/nose', '2':'Gradual weight loss only', '3':'Cough and nasal discharge', '4':"Don't know" },
+    knowledge_10: { '1':'Regular vaccination', '2':'Clean grass/feed and water', '3':'Keep cattle shed floor clean', '4':'Separate infected animals', '5':'Do not know' },
+    knowledge_11: { '1':'Avoid eating sick/dead animal meat', '2':'Avoid raw/undercooked milk and meat', '3':'Avoid handling sick animals barehanded', '4':'Dispose of dead animals properly', '5':'Do not know' },
+    knowledge_12: yn,
+    knowledge_13: { '1':'Government health programs', '2':'Veterinary hospitals', '3':'Family/neighbors', '4':'Social media', '5':'Television/radio' },
+    attitude_1: { '1':'Very serious and fatal', '2':'Moderately serious', '3':'Mild disease', '4':'Not serious' },
+    attitude_2: { '1':'Very high', '2':'Moderate', '3':'Low', '4':'No risk', '5':'Do not want to answer' },
+    attitude_3: { '1':'Yes', '0':'No', '2':'Not sure' },
+    attitude_4: { '1':'Yes', '0':'No', '2':'Do not want to answer' },
+    attitude_5: { '1':'Yes', '0':'No', '2':'Do not want to answer' },
+    attitude_6: { '1':'Very important', '2':'Moderately important', '3':'Less important', '4':'Not important', '5':'Do not want to answer' },
+    attitude_7: { '1':'Yes', '0':'No', '2':'Do not want to answer' },
+    attitude_8: { '1':'Agree', '0':'Disagree', '3':'Do not want to answer' },
+    attitude_9: { '1':'Full trust', '2':'Low trust', '0':'No trust', '3':'Do not want to answer' },
+    attitude_10:{ '1':'Agree', '0':'Disagree', '3':'Do not want to answer' },
+    practice_1: { '1':'Take to veterinarian', '2':'Provide home treatment', '3':'Slaughter it', '0':'Do nothing' },
+    practice_2: { '1':'Use gloves/polythene', '2':'Handle with bare hands', '3':'Only wash hands', '0':'No protection' },
+    practice_3: { '1':'Inform veterinary officer', '2':'Bury in a pit', '3':'Discuss with neighbors', '0':'Do nothing' },
+    practice_4: { '1':'Bury in a pit ASAP', '2':'Burn/incinerate', '3':'Throw into water body', '4':'Throw in open place' },
+    practice_5: { '1':'Separate shoes and clothes', '2':'Restrict visitor entry', '3':'Disinfect at entry/exit', '4':'Prevent entry of wildlife/birds/pets', '5':'Do not know' },
+    practice_6: { '1':'Daily dung/manure removal', '2':'Dry surfaces after cleaning', '3':'Apply specific disinfectant', '4':'Clean farm vehicles regularly', '5':'Do nothing' },
+    practice_7: { '1':'Daily', '2':'Weekly', '3':'After each production cycle', '4':'Sometimes' },
+    practice_8: { '1':'Regular disinfectant spray', '2':'Only footbath', '3':'Fumigation', '4':'Only water' },
+    practice_9: { '1':'Use boots and mask', '2':'Use separate clothes', '3':'Wash with soap/disinfectant', '0':'Do nothing' },
+    practice_10:{ '1':'Keep feed storage covered', '2':'Restrict pests/wildlife', '3':'Clean water pots regularly', '4':'Clean surroundings between feedings', '5':'Do nothing' },
+    practice_11: yn,
+    practice_12:{ '1':'Vaccine not easily available', '2':'Vet center too far', '3':'Travel/purchase cost too high', '4':'Workers not sincere' },
+    practice_13:{ '1':'Government animal hospital', '2':'NGO', '3':'Pharmacy', '4':'Other' }
+  };
+
+  syntax += `* Value labels.\nVALUE LABELS\n`;
+  const vlBlocks = Object.entries(valueLabels).map(([k, codes]) => {
+    const lines = Object.entries(codes).map(([c, l]) => `    ${c} '${esc(l)}'`).join('\n');
+    return `  /${k}\n${lines}`;
   });
-  syntax += `.\n\nEXECUTE.\n`;
+  syntax += vlBlocks.join('\n') + '\n.\n\n';
+
+  syntax += `EXECUTE.\n`;
   downloadFile('anthrax_kap_syntax.sps', syntax, 'text/plain');
-  showToast('✅ SPSS syntax file exported!');
+  showToast('✅ SPSS syntax exported with variable + value labels!');
 }
 
 function getAllKeys() {
   // Always return the full fixed column list — every field, even if empty in some records
-  return ['f_id','f_date','f_place','f_name','f_address','f_phone','f_age','f_gender','f_religion','f_edu','f_occ','f_income','f_src','f_outbreak','f_fam_suf','f_howlong','f_fam_inf','f_ls_inf','f_training','f_vet_access','f_nature','f_farmtype','f_range','f_ls_type','f_ls_num','f_pt_type','f_pt_num','f_k1','f_k2','f_k3','f_k4','f_k5','f_k6','f_k7','f_k8','f_k9','f_k10','f_k11','f_k12','f_k13','f_a1','f_a2','f_a3','f_a4','f_a5','f_a6','f_a7','f_a8','f_a9','f_a10','f_p1','f_p2','f_p3','f_p4','f_p5','f_p6','f_p7','f_p8','f_p9','f_p10','f_p11','f_p12','f_p13'];
+  return ['particulars_id','background_1','background_2','background_3','background_4','background_5','background_6','background_7','background_8','background_9','background_10','background_11','background_12','background_13','background_14','farm_1','farm_2','farm_3','livestock_1','livestock_2','livestock_3','livestock_4','knowledge_1','knowledge_2','knowledge_3','knowledge_4','knowledge_5','knowledge_6','knowledge_7','knowledge_8','knowledge_9','knowledge_10','knowledge_11','knowledge_12','knowledge_13','attitude_1','attitude_2','attitude_3','attitude_4','attitude_5','attitude_6','attitude_7','attitude_8','attitude_9','attitude_10','practice_1','practice_2','practice_3','practice_4','practice_5','practice_6','practice_7','practice_8','practice_9','practice_10','practice_11','practice_12','practice_13'];
 }
 
 function downloadFile(filename, content, mime) {
@@ -1382,40 +1022,37 @@ function showToast(msg) {
 // ── Example / Demo Records ────────────────────────────────────────────────
 const EXAMPLE_RECORDS = [
   {
-    f_id:'KAP-001', f_date:'2026-04-10', f_place:'Sirajganj', f_name:'Md. Rahim Uddin',
-    f_address:'Vill: Char Bhadra, Sirajganj', f_phone:'01711-234567', f_age:'42',
-    f_gender:'1', f_religion:'1', f_edu:'3', f_occ:'1', f_income:'12000',
-    f_src:'1', f_outbreak:'1', f_fam_suf:'2', f_howlong:'3', f_fam_inf:'2',
-    f_ls_inf:'1', f_training:'1', f_vet_access:'1', f_nature:'1', f_farmtype:'1',
-    f_range:'2', f_ls_type:'1', f_ls_num:'15', f_pt_type:'1', f_pt_num:'80',
-    f_k1:'1', f_k2:'1', f_k3:'1', f_k4:'1', f_k5:'2', f_k6:'1', f_k7:'2',
-    f_k8:'1', f_k9:'1', f_k10:'1', f_k11:'1', f_k12:'1', f_k13:'1',
-    f_a1:'1', f_a2:'1', f_a3:'1', f_a4:'2', f_a5:'1', f_a6:'1', f_a7:'1', f_a8:'1', f_a9:'2', f_a10:'1',
-    f_p1:'1', f_p2:'1', f_p3:'2', f_p4:'1', f_p5:'1', f_p6:'3', f_p7:'2', f_p8:'1', f_p9:'1', f_p10:'2', f_p11:'1', f_p13:'1'
+    particulars_id:'KAP-001', background_1:'42',
+    background_2:'1', background_3:'1', background_4:'3', background_5:'1', background_6:'12000',
+    background_7:'1', background_8:'1', background_9:'2', background_10:'3', background_11:'2',
+    background_12:'1', background_13:'1', background_14:'1', farm_1:'1', farm_2:'1',
+    farm_3:'2', livestock_1:'1', livestock_2:'15', livestock_3:'1', livestock_4:'80',
+    knowledge_1:'1', knowledge_2:'1', knowledge_3:'1', knowledge_4:'1', knowledge_5:'2', knowledge_6:'1', knowledge_7:'2',
+    knowledge_8:'1', knowledge_9:'1', knowledge_10:'1', knowledge_11:'1', knowledge_12:'1', knowledge_13:'1',
+    attitude_1:'1', attitude_2:'1', attitude_3:'1', attitude_4:'2', attitude_5:'1', attitude_6:'1', attitude_7:'1', attitude_8:'1', attitude_9:'2', attitude_10:'1',
+    practice_1:'1', practice_2:'1', practice_3:'2', practice_4:'1', practice_5:'1', practice_6:'3', practice_7:'2', practice_8:'1', practice_9:'1', practice_10:'2', practice_11:'1', practice_13:'1'
   },
   {
-    f_id:'KAP-002', f_date:'2026-04-11', f_place:'Pabna', f_name:'Fatema Begum',
-    f_address:'Vill: Ataikula, Pabna', f_phone:'01812-345678', f_age:'35',
-    f_gender:'2', f_religion:'1', f_edu:'2', f_occ:'2', f_income:'8000',
-    f_src:'2', f_outbreak:'2', f_fam_suf:'2', f_howlong:'2', f_fam_inf:'2',
-    f_ls_inf:'2', f_training:'2', f_vet_access:'2', f_nature:'2', f_farmtype:'2',
-    f_range:'1', f_ls_type:'2', f_ls_num:'6', f_pt_type:'2', f_pt_num:'30',
-    f_k1:'1', f_k2:'2', f_k3:'2', f_k4:'1', f_k5:'2', f_k6:'2', f_k7:'2',
-    f_k8:'2', f_k9:'1', f_k10:'2', f_k11:'2', f_k12:'2', f_k13:'2',
-    f_a1:'2', f_a2:'2', f_a3:'1', f_a4:'1', f_a5:'2', f_a6:'2', f_a7:'1', f_a8:'2', f_a9:'1', f_a10:'2',
-    f_p1:'2', f_p2:'2', f_p3:'1', f_p4:'2', f_p5:'2', f_p6:'1', f_p7:'1', f_p8:'2', f_p9:'2', f_p10:'1', f_p11:'0', f_p12:'1'
+    particulars_id:'KAP-002', background_1:'35',
+    background_2:'2', background_3:'1', background_4:'2', background_5:'2', background_6:'8000',
+    background_7:'2', background_8:'2', background_9:'2', background_10:'2', background_11:'2',
+    background_12:'2', background_13:'2', background_14:'2', farm_1:'2', farm_2:'2',
+    farm_3:'1', livestock_1:'2', livestock_2:'6', livestock_3:'2', livestock_4:'30',
+    knowledge_1:'1', knowledge_2:'2', knowledge_3:'2', knowledge_4:'1', knowledge_5:'2', knowledge_6:'2', knowledge_7:'2',
+    knowledge_8:'2', knowledge_9:'1', knowledge_10:'2', knowledge_11:'2', knowledge_12:'2', knowledge_13:'2',
+    attitude_1:'2', attitude_2:'2', attitude_3:'1', attitude_4:'1', attitude_5:'2', attitude_6:'2', attitude_7:'1', attitude_8:'2', attitude_9:'1', attitude_10:'2',
+    practice_1:'2', practice_2:'2', practice_3:'1', practice_4:'2', practice_5:'2', practice_6:'1', practice_7:'1', practice_8:'2', practice_9:'2', practice_10:'1', practice_11:'0', practice_12:'1'
   },
   {
-    f_id:'KAP-003', f_date:'2026-04-12', f_place:'Manikganj', f_name:'Karim Hossain',
-    f_address:'Vill: Ghior, Manikganj', f_phone:'01611-456789', f_age:'58',
-    f_gender:'1', f_religion:'1', f_edu:'1', f_occ:'1', f_income:'18000',
-    f_src:'3', f_outbreak:'1', f_fam_suf:'1', f_howlong:'5', f_fam_inf:'1',
-    f_ls_inf:'1', f_training:'1', f_vet_access:'1', f_nature:'1', f_farmtype:'1',
-    f_range:'3', f_ls_type:'3', f_ls_num:'40', f_pt_type:'1', f_pt_num:'200',
-    f_k1:'1', f_k2:'1', f_k3:'1', f_k4:'1', f_k5:'1', f_k6:'1', f_k7:'1',
-    f_k8:'1', f_k9:'1', f_k10:'1', f_k11:'1', f_k12:'1', f_k13:'1',
-    f_a1:'1', f_a2:'1', f_a3:'1', f_a4:'1', f_a5:'1', f_a6:'1', f_a7:'1', f_a8:'1', f_a9:'1', f_a10:'1',
-    f_p1:'1', f_p2:'1', f_p3:'1', f_p4:'1', f_p5:'1', f_p6:'1', f_p7:'1', f_p8:'1', f_p9:'1', f_p10:'1', f_p11:'1', f_p13:'1'
+    particulars_id:'KAP-003', background_1:'58',
+    background_2:'1', background_3:'1', background_4:'1', background_5:'1', background_6:'18000',
+    background_7:'3', background_8:'1', background_9:'1', background_10:'5', background_11:'1',
+    background_12:'1', background_13:'1', background_14:'1', farm_1:'1', farm_2:'1',
+    farm_3:'3', livestock_1:'3', livestock_2:'40', livestock_3:'1', livestock_4:'200',
+    knowledge_1:'1', knowledge_2:'1', knowledge_3:'1', knowledge_4:'1', knowledge_5:'1', knowledge_6:'1', knowledge_7:'1',
+    knowledge_8:'1', knowledge_9:'1', knowledge_10:'1', knowledge_11:'1', knowledge_12:'1', knowledge_13:'1',
+    attitude_1:'1', attitude_2:'1', attitude_3:'1', attitude_4:'1', attitude_5:'1', attitude_6:'1', attitude_7:'1', attitude_8:'1', attitude_9:'1', attitude_10:'1',
+    practice_1:'1', practice_2:'1', practice_3:'1', practice_4:'1', practice_5:'1', practice_6:'1', practice_7:'1', practice_8:'1', practice_9:'1', practice_10:'1', practice_11:'1', practice_13:'1'
   }
 ];
 
