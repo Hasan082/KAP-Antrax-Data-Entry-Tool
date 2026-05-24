@@ -57,8 +57,13 @@
       <div class="section-title">Section 2 — Background Characteristics <span class="section-badge">S2</span></div>
       <div class="field-grid">
         <div class="field">
-          <label><span class="qnum">1</span>Age (years)</label>
-          <input type="number" id="age" placeholder="e.g. 35" min="10" max="100">
+          <label><span class="qnum">1</span>Please tell me how old you are?</label>
+          <div class="options inline" id="age">
+            <div class="option-item" onclick="selectRadio('age', '1', this)"><span class="option-dot"></span><span class="option-label">18–40 years</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('age', '2', this)"><span class="option-dot"></span><span class="option-label">41–50 years</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('age', '3', this)"><span class="option-dot"></span><span class="option-label">51–60 years</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectRadio('age', '4', this)"><span class="option-dot"></span><span class="option-label">Above 60 years</span><span class="option-code">4</span></div>
+          </div>
         </div>
         <div class="field">
           <label><span class="qnum">2</span>Gender</label>
@@ -96,8 +101,12 @@
           </div>
         </div>
         <div class="field">
-          <label><span class="qnum">6</span>Monthly Income (BDT)</label>
-          <input type="number" id="mon_inc" placeholder="e.g. 15000">
+          <label><span class="qnum">6</span>Please tell your monthly income.</label>
+          <div class="options inline" id="mon_inc">
+            <div class="option-item" onclick="selectRadio('mon_inc', '1', this)"><span class="option-dot"></span><span class="option-label">5,000–15,000</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('mon_inc', '2', this)"><span class="option-dot"></span><span class="option-label">16,000–25,000</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('mon_inc', '3', this)"><span class="option-dot"></span><span class="option-label">Above 25,000</span><span class="option-code">3</span></div>
+          </div>
         </div>
         <div class="field span2">
           <label><span class="qnum">7</span>Source of Anthrax Knowledge</label>
@@ -120,7 +129,7 @@
           </div>
         </div>
         <div class="field">
-          <label><span class="qnum">9</span>Family member suffered anthrax?</label>
+          <label><span class="qnum">9</span>Has any member of your family suffered from anthrax?</label>
           <div class="options inline" id="fam_suf_ant">
             <div class="option-item" onclick="selectRadio('fam_suf_ant', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('fam_suf_ant', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
@@ -128,7 +137,11 @@
         </div>
         <div class="field">
           <label><span class="qnum">10</span>If yes, how long ago?</label>
-          <input type="text" id="fam_suf_dur" placeholder="e.g. 2 years">
+          <div class="options inline" id="fam_suf_dur">
+            <div class="option-item" onclick="selectRadio('fam_suf_dur', '1', this)"><span class="option-dot"></span><span class="option-label">1–6 months</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('fam_suf_dur', '2', this)"><span class="option-dot"></span><span class="option-label">7–12 months</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('fam_suf_dur', '3', this)"><span class="option-dot"></span><span class="option-label">More than 12 months</span><span class="option-code">3</span></div>
+          </div>
         </div>
         <div class="field">
           <label><span class="qnum">11</span>Family ever infected with anthrax?</label>
@@ -182,10 +195,11 @@
         </div>
       </div>
       <div class="field">
-        <label><span class="qnum">3</span>Farm Range / Scale</label>
+        <label><span class="qnum">3</span>Range</label>
         <div class="options inline" id="farm_scale">
-          <div class="option-item" onclick="selectRadio('farm_scale', '1', this)"><span class="option-dot"></span><span class="option-label">Backyard / Small-Scale</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('farm_scale', '2', this)"><span class="option-dot"></span><span class="option-label">Commercial</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('farm_scale', '1', this)"><span class="option-dot"></span><span class="option-label">Backyard</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectRadio('farm_scale', '2', this)"><span class="option-dot"></span><span class="option-label">Small-scale farmer</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectRadio('farm_scale', '3', this)"><span class="option-dot"></span><span class="option-label">Commercial</span><span class="option-code">3</span></div>
         </div>
       </div>
     </div>
@@ -203,7 +217,11 @@
         </div>
         <div class="field">
           <label><span class="qnum">2</span>Number of Livestock</label>
-          <input type="number" id="lstk_num" placeholder="e.g. 5" min="0">
+          <div class="options inline" id="lstk_num">
+            <div class="option-item" onclick="selectRadio('lstk_num', '1', this)"><span class="option-dot"></span><span class="option-label">1–3</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('lstk_num', '2', this)"><span class="option-dot"></span><span class="option-label">4–10</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('lstk_num', '3', this)"><span class="option-dot"></span><span class="option-label">More than 10</span><span class="option-code">3</span></div>
+          </div>
         </div>
         <div class="field">
           <label><span class="qnum">3</span>Poultry Type</label>
@@ -216,7 +234,11 @@
         </div>
         <div class="field">
           <label><span class="qnum">4</span>Number of Poultry</label>
-          <input type="number" id="pltry_num" placeholder="e.g. 50" min="0">
+          <div class="options inline" id="pltry_num">
+            <div class="option-item" onclick="selectRadio('pltry_num', '1', this)"><span class="option-dot"></span><span class="option-label">5–20</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectRadio('pltry_num', '2', this)"><span class="option-dot"></span><span class="option-label">21–2000</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectRadio('pltry_num', '3', this)"><span class="option-dot"></span><span class="option-label">More than 2000</span><span class="option-code">3</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -721,7 +743,7 @@ function navSection(dir) {
 }
 
 function updateProgress() {
-  const textFields = ['id','age','mon_inc','fam_suf_dur','lstk_num','pltry_num'];
+  const textFields = ['id'];
   let filled = Object.keys(FIELD_VALUES).length;
   textFields.forEach(id => {
     const el = document.getElementById(id);
@@ -734,7 +756,7 @@ function updateProgress() {
 }
 
 function getFormData() {
-  const textFields = ['id','age','mon_inc','fam_suf_dur','lstk_num','pltry_num'];
+  const textFields = ['id'];
   const data = {...FIELD_VALUES};
   textFields.forEach(id => {
     const el = document.getElementById(id);
@@ -789,7 +811,7 @@ async function deleteRecord(id) {
 function clearForm() {
   if (records.length > 0 && !confirm('Clear current form? Saved records will remain.')) return;
   document.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
-  ['id','age','mon_inc','fam_suf_dur','lstk_num','pltry_num'].forEach(id => {
+  ['id'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -815,8 +837,10 @@ function renderTable() {
     return;
   }
   const genderMap = {'1':'Male','2':'Female'};
+  const ageMap = {'1':'18–40','2':'41–50','3':'51–60','4':'>60'};
   const eduMap = {'0':'Illiterate','1':'Primary','2':'Secondary','3':'College/University'};
   const occMap = {'1':'Day Labourer','2':'Farmer','3':'Business','4':'Service','5':'Others'};
+  const incMap = {'1':'5k–15k','2':'16k–25k','3':'>25k'};
   let html = `<table class="data-table" style="width:100%;font-size:12.5px;">
     <thead><tr>
       <th style="min-width:80px">#</th>
@@ -844,11 +868,11 @@ function renderTable() {
     html += `<tr>
       <td style="color:var(--gray-400);text-align:center;">${i+1}</td>
       <td><strong>${r.id||'—'}</strong></td>
-      <td style="text-align:center;">${r.age||'—'}</td>
+      <td style="text-align:center;">${ageMap[r.age]||'—'}</td>
       <td style="text-align:center;">${genderMap[r.gender]||'—'}</td>
       <td>${eduMap[r.edu_qua]||'—'}</td>
       <td>${occMap[r.occupation]||'—'}</td>
-      <td>${r.mon_inc ? r.mon_inc+' ৳' : '—'}</td>
+      <td style="text-align:center;">${incMap[r.mon_inc]||'—'}</td>
       <td style="text-align:center;">${r.outbreak_area==='1'?'<span style="color:#ef4444">Yes</span>':'<span style="color:#22c55e">No</span>'}</td>
       <td style="text-align:center;">${r.train_dis==='1'?'<span style="color:#22c55e">Yes</span>':'<span style="color:#ef4444">No</span>'}</td>
       <td style="text-align:center;font-weight:600;color:#1a73e8;">${score(kKeys)}</td>
@@ -916,7 +940,7 @@ function exportSPSS() {
     vet_access: 'How accessible are veterinary health services in your community?',
     prt_nature: 'Nature of participant',
     farm_type: 'Type of farm',
-    farm_scale: 'Range (Backyard/small-scale or Commercial)',
+    farm_scale: 'Range (Backyard, Small-scale or Commercial)',
     lstk_type: 'Type of livestock',
     lstk_num: 'Number of livestock',
     pltry_type: 'Type of poultry',
@@ -965,18 +989,23 @@ function exportSPSS() {
 
   const yn = { '1':'Yes', '0':'No' };
   const valueLabels = {
+    age: { '1':'18-40 years', '2':'41-50 years', '3':'51-60 years', '4':'Above 60 years' },
     gender: { '1':'Male', '2':'Female' },
     religion: { '1':'Islam', '2':'Hindu', '3':'Christian', '4':'Other' },
     edu_qua: { '0':'Illiterate', '1':'Primary', '2':'Secondary', '3':'College/University' },
     occupation: { '1':'Day Labourer', '2':'Farmer', '3':'Business', '4':'Service', '5':'Others' },
+    mon_inc: { '1':'5000-15000', '2':'16000-25000', '3':'Above 25000' },
     src_ant_knw: { '1':'Family/Friends/Neighbors', '2':'Veterinary Officer', '3':'Health Worker', '4':'TV/Newspaper', '5':'Other' },
     outbreak_area: yn, fam_suf_ant: yn, fam_inf_ant: yn, lstk_inf_ant: yn, train_dis: yn,
+    fam_suf_dur: { '1':'1-6 months', '2':'7-12 months', '3':'More than 12 months' },
     vet_access: { '1':'Very Accessible', '2':'Moderately Accessible', '3':'Poorly Accessible', '0':'Not Accessible' },
     prt_nature: { '1':'Farm Owner', '2':'Farm Worker' },
     farm_type: { '1':'Only dairy farm', '2':'Only poultry farm', '3':'Mixed farm (cattle + poultry)' },
-    farm_scale: { '1':'Backyard/small-scale', '2':'Commercial' },
+    farm_scale: { '1':'Backyard', '2':'Small-scale farmer', '3':'Commercial' },
     lstk_type: { '1':'Cattle', '2':'Goat' },
+    lstk_num: { '1':'1-3', '2':'4-10', '3':'More than 10' },
     pltry_type: { '1':'Broiler chicken', '2':'Layer chicken', '3':'Duck', '4':'Other' },
+    pltry_num: { '1':'5-20', '2':'21-2000', '3':'More than 2000' },
     knw_ant: yn,
     knw_cause: { '1':'Germs', '2':'Hereditary', '3':'Witchcraft', '4':"Don't know" },
     knw_sprd_hum: { '1':'Eating meat/milk from infected animals', '2':'Caring for infected animals without PPE', '3':'Contaminated soil', '4':'Direct contact with anthrax patient', '5':'Do not know' },
@@ -1049,43 +1078,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── Example / Demo Records ────────────────────────────────────────────────
-const EXAMPLE_RECORDS = [
-  {
-    id:'KAP-001', age:'42',
-    gender:'1', religion:'1', edu_qua:'3', occupation:'1', mon_inc:'12000',
-    src_ant_knw:'1', outbreak_area:'1', fam_suf_ant:'2', fam_suf_dur:'3', fam_inf_ant:'2',
-    lstk_inf_ant:'1', train_dis:'1', vet_access:'1', prt_nature:'1', farm_type:'1',
-    farm_scale:'2', lstk_type:'1', lstk_num:'15', pltry_type:'1', pltry_num:'80',
-    knw_ant:'1', knw_cause:'1', knw_sprd_hum:'1', knw_sprd_anm:'1', knw_pltry_inf:'2', knw_sym_pltry:'1', knw_pltry_hum:'2',
-    knw_sym_hum:'1', knw_sym_anm:'1', knw_prev_anm:'1', knw_prev_hum:'1', knw_he_recv:'1', knw_he_src:'1',
-    att_serious:'1', att_likely_hum:'1', att_milk_trans:'1', att_graze_src:'2', att_vac_prev:'1', att_vac_imp:'1', att_hyg_reduce:'1', att_disposal:'1', att_govt_trust:'2', att_he_help:'1',
-    prc_sick_act:'1', prc_handle_ppe:'1', prc_dead_act:'2', prc_disposal:'1', prc_inf_prev:'1', prc_clean_step:'3', prc_clean_freq:'2', prc_disinf:'1', prc_clean_ppe:'1', prc_feed_safe:'2', prc_vac_reg:'1', prc_vac_src:'1'
-  },
-  {
-    id:'KAP-002', age:'35',
-    gender:'2', religion:'1', edu_qua:'2', occupation:'2', mon_inc:'8000',
-    src_ant_knw:'2', outbreak_area:'2', fam_suf_ant:'2', fam_suf_dur:'2', fam_inf_ant:'2',
-    lstk_inf_ant:'2', train_dis:'2', vet_access:'2', prt_nature:'2', farm_type:'2',
-    farm_scale:'1', lstk_type:'2', lstk_num:'6', pltry_type:'2', pltry_num:'30',
-    knw_ant:'1', knw_cause:'2', knw_sprd_hum:'2', knw_sprd_anm:'1', knw_pltry_inf:'2', knw_sym_pltry:'2', knw_pltry_hum:'2',
-    knw_sym_hum:'2', knw_sym_anm:'1', knw_prev_anm:'2', knw_prev_hum:'2', knw_he_recv:'2', knw_he_src:'2',
-    att_serious:'2', att_likely_hum:'2', att_milk_trans:'1', att_graze_src:'1', att_vac_prev:'2', att_vac_imp:'2', att_hyg_reduce:'1', att_disposal:'2', att_govt_trust:'1', att_he_help:'2',
-    prc_sick_act:'2', prc_handle_ppe:'2', prc_dead_act:'1', prc_disposal:'2', prc_inf_prev:'2', prc_clean_step:'1', prc_clean_freq:'1', prc_disinf:'2', prc_clean_ppe:'2', prc_feed_safe:'1', prc_vac_reg:'0', prc_no_vac_why:'1'
-  },
-  {
-    id:'KAP-003', age:'58',
-    gender:'1', religion:'1', edu_qua:'1', occupation:'1', mon_inc:'18000',
-    src_ant_knw:'3', outbreak_area:'1', fam_suf_ant:'1', fam_suf_dur:'5', fam_inf_ant:'1',
-    lstk_inf_ant:'1', train_dis:'1', vet_access:'1', prt_nature:'1', farm_type:'1',
-    farm_scale:'3', lstk_type:'3', lstk_num:'40', pltry_type:'1', pltry_num:'200',
-    knw_ant:'1', knw_cause:'1', knw_sprd_hum:'1', knw_sprd_anm:'1', knw_pltry_inf:'1', knw_sym_pltry:'1', knw_pltry_hum:'1',
-    knw_sym_hum:'1', knw_sym_anm:'1', knw_prev_anm:'1', knw_prev_hum:'1', knw_he_recv:'1', knw_he_src:'1',
-    att_serious:'1', att_likely_hum:'1', att_milk_trans:'1', att_graze_src:'1', att_vac_prev:'1', att_vac_imp:'1', att_hyg_reduce:'1', att_disposal:'1', att_govt_trust:'1', att_he_help:'1',
-    prc_sick_act:'1', prc_handle_ppe:'1', prc_dead_act:'1', prc_disposal:'1', prc_inf_prev:'1', prc_clean_step:'1', prc_clean_freq:'1', prc_disinf:'1', prc_clean_ppe:'1', prc_feed_safe:'1', prc_vac_reg:'1', prc_vac_src:'1'
-  }
-];
-
 // ── Load data from Google Sheet on startup ────────────────────────────────
 async function loadFromSheet() {
   showToast('⏳ Loading data from Google Sheet…');
@@ -1103,19 +1095,13 @@ async function loadFromSheet() {
       localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
       showToast('✅ Loaded ' + records.length + ' records from Google Sheet');
     } else {
-      if (records.length === 0) {
-        records = EXAMPLE_RECORDS.slice();
-        localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
-      }
-      showToast('ℹ️ Sheet is empty. Showing example records.');
+      records = [];
+      localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
+      showToast('ℹ️ Sheet is empty. No records loaded.');
     }
   } catch (e) {
     console.error('Sheet load error:', e);
-    if (records.length === 0) {
-      records = EXAMPLE_RECORDS.slice();
-      localStorage.setItem('anthrax_kap_records', JSON.stringify(records));
-    }
-    showToast('⚠️ Could not load from Sheet. Using local data.');
+    showToast('⚠️ Could not load from Sheet.');
   }
   renderTable();
   updateCounts();
