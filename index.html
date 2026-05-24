@@ -111,11 +111,11 @@
         <div class="field span2">
           <label><span class="qnum">7</span>Source of Anthrax Knowledge</label>
           <div class="options inline" id="src_ant_knw">
-            <div class="option-item" onclick="selectRadio('src_ant_knw', '1', this)"><span class="option-dot"></span><span class="option-label">Family/Friends/Neighbors</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('src_ant_knw', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Officer</span><span class="option-code">2</span></div>
-            <div class="option-item" onclick="selectRadio('src_ant_knw', '3', this)"><span class="option-dot"></span><span class="option-label">Health Worker</span><span class="option-code">3</span></div>
-            <div class="option-item" onclick="selectRadio('src_ant_knw', '4', this)"><span class="option-dot"></span><span class="option-label">TV/Newspaper</span><span class="option-code">4</span></div>
-            <div class="option-item" onclick="selectRadio('src_ant_knw', '5', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">5</span></div>
+            <div class="option-item" onclick="selectCheckbox('src_ant_knw', '1', this)"><span class="option-dot"></span><span class="option-label">Family/Friends/Neighbors</span><span class="option-code">1</span></div>
+            <div class="option-item" onclick="selectCheckbox('src_ant_knw', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Officer</span><span class="option-code">2</span></div>
+            <div class="option-item" onclick="selectCheckbox('src_ant_knw', '3', this)"><span class="option-dot"></span><span class="option-label">Health Worker</span><span class="option-code">3</span></div>
+            <div class="option-item" onclick="selectCheckbox('src_ant_knw', '4', this)"><span class="option-dot"></span><span class="option-label">TV/Newspaper</span><span class="option-code">4</span></div>
+            <div class="option-item" onclick="selectCheckbox('src_ant_knw', '5', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">5</span></div>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@
             <div class="option-item" onclick="selectRadio('fam_suf_ant', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
-        <div class="field">
+        <div class="field" data-show-when="fam_suf_ant=1">
           <label><span class="qnum">10</span>If yes, how long ago?</label>
           <div class="options inline" id="fam_suf_dur">
             <div class="option-item" onclick="selectRadio('fam_suf_dur', '1', this)"><span class="option-dot"></span><span class="option-label">1–6 months</span><span class="option-code">1</span></div>
@@ -208,14 +208,14 @@
     <div class="section" id="s3">
       <div class="section-title">Section 2.3 — Type & Number of Livestock / Poultry <span class="section-badge">S2.3</span></div>
       <div class="field-grid">
-        <div class="field">
+        <div class="field" data-show-when="farm_type=1|3">
           <label><span class="qnum">1</span>Livestock Type</label>
           <div class="options inline" id="lstk_type">
             <div class="option-item" onclick="selectRadio('lstk_type', '1', this)"><span class="option-dot"></span><span class="option-label">Cattle</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('lstk_type', '2', this)"><span class="option-dot"></span><span class="option-label">Goat</span><span class="option-code">2</span></div>
           </div>
         </div>
-        <div class="field">
+        <div class="field" data-show-when="farm_type=1|3">
           <label><span class="qnum">2</span>Number of Livestock</label>
           <div class="options inline" id="lstk_num">
             <div class="option-item" onclick="selectRadio('lstk_num', '1', this)"><span class="option-dot"></span><span class="option-label">1–3</span><span class="option-code">1</span></div>
@@ -223,7 +223,7 @@
             <div class="option-item" onclick="selectRadio('lstk_num', '3', this)"><span class="option-dot"></span><span class="option-label">More than 10</span><span class="option-code">3</span></div>
           </div>
         </div>
-        <div class="field">
+        <div class="field" data-show-when="farm_type=2|3">
           <label><span class="qnum">3</span>Poultry Type</label>
           <div class="options inline" id="pltry_type">
             <div class="option-item" onclick="selectRadio('pltry_type', '1', this)"><span class="option-dot"></span><span class="option-label">Broiler Chicken</span><span class="option-code">1</span></div>
@@ -232,7 +232,7 @@
             <div class="option-item" onclick="selectRadio('pltry_type', '4', this)"><span class="option-dot"></span><span class="option-label">Other</span><span class="option-code">4</span></div>
           </div>
         </div>
-        <div class="field">
+        <div class="field" data-show-when="farm_type=2|3">
           <label><span class="qnum">4</span>Number of Poultry</label>
           <div class="options inline" id="pltry_num">
             <div class="option-item" onclick="selectRadio('pltry_num', '1', this)"><span class="option-dot"></span><span class="option-label">5–20</span><span class="option-code">1</span></div>
@@ -265,20 +265,20 @@
       <div class="field">
         <label><span class="qnum">3</span>How does anthrax spread among humans?</label>
         <div class="options" id="knw_sprd_hum">
-          <div class="option-item" onclick="selectRadio('knw_sprd_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Eating meat/milk from infected animals</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Caring for infected animals without PPE</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Soil contaminated with anthrax germs</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Direct contact with anthrax patient</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Eating meat/milk from infected animals</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Caring for infected animals without PPE</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Soil contaminated with anthrax germs</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Direct contact with anthrax patient</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">4</span>How does anthrax spread among animals?</label>
         <div class="options inline" id="knw_sprd_anm">
-          <div class="option-item" onclick="selectRadio('knw_sprd_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Contaminated soil/pasture</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Drinking clean water</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Cold weather exposure</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sprd_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Contaminated soil/pasture</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Drinking clean water</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Cold weather exposure</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sprd_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
@@ -291,10 +291,10 @@
       <div class="field">
         <label><span class="qnum">6</span>Symptoms in poultry?</label>
         <div class="options inline" id="knw_sym_pltry">
-          <div class="option-item" onclick="selectRadio('knw_sym_pltry', '1', this)"><span class="option-dot"></span><span class="option-label">Swelling/Edema in throat</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_pltry', '2', this)"><span class="option-dot"></span><span class="option-label">Hemorrhagic enteritis</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_pltry', '3', this)"><span class="option-dot"></span><span class="option-label">Blood on internal organs</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_pltry', '4', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_pltry', '1', this)"><span class="option-dot"></span><span class="option-label">Swelling/Edema in throat</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_pltry', '2', this)"><span class="option-dot"></span><span class="option-label">Hemorrhagic enteritis</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_pltry', '3', this)"><span class="option-dot"></span><span class="option-label">Blood on internal organs</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_pltry', '4', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
@@ -307,40 +307,40 @@
       <div class="field">
         <label><span class="qnum">8</span>Common symptoms in humans?</label>
         <div class="options" id="knw_sym_hum">
-          <div class="option-item" onclick="selectRadio('knw_sym_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Skin rash, painless black lesion</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Abdominal pain, blood vomiting, diarrhea</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Fever and breathing difficulty</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Joint pain</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Skin rash, painless black lesion</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Abdominal pain, blood vomiting, diarrhea</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Fever and breathing difficulty</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Joint pain</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">9</span>Common symptoms in animals?</label>
         <div class="options" id="knw_sym_anm">
-          <div class="option-item" onclick="selectRadio('knw_sym_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Sudden death with bleeding from mouth/nose</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Gradual weight loss only</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Cough and nasal discharge</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_sym_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Sudden death with bleeding from mouth/nose</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Gradual weight loss only</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Cough and nasal discharge</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_sym_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Don't know</span><span class="option-code">4</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">10</span>Prevention measures in animals?</label>
         <div class="options" id="knw_prev_anm">
-          <div class="option-item" onclick="selectRadio('knw_prev_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Regular vaccination</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Supply clean feed and water</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Keep cattle shed clean</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Separate infected from healthy</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_anm', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_anm', '1', this)"><span class="option-dot"></span><span class="option-label">Regular vaccination</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_anm', '2', this)"><span class="option-dot"></span><span class="option-label">Supply clean feed and water</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_anm', '3', this)"><span class="option-dot"></span><span class="option-label">Keep cattle shed clean</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_anm', '4', this)"><span class="option-dot"></span><span class="option-label">Separate infected from healthy</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_anm', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">11</span>Prevention in humans?</label>
         <div class="options" id="knw_prev_hum">
-          <div class="option-item" onclick="selectRadio('knw_prev_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Avoid slaughtering sick/dead animals</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Avoid raw/undercooked milk and meat</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Avoid bare-hand contact with sick animals</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Dispose of dead animals properly</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('knw_prev_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_hum', '1', this)"><span class="option-dot"></span><span class="option-label">Avoid slaughtering sick/dead animals</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_hum', '2', this)"><span class="option-dot"></span><span class="option-label">Avoid raw/undercooked milk and meat</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_hum', '3', this)"><span class="option-dot"></span><span class="option-label">Avoid bare-hand contact with sick animals</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_hum', '4', this)"><span class="option-dot"></span><span class="option-label">Dispose of dead animals properly</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_prev_hum', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
@@ -350,14 +350,14 @@
           <div class="option-item" onclick="selectRadio('knw_he_recv', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
-      <div class="field">
+      <div class="field" data-show-when="knw_he_recv=1">
         <label><span class="qnum">13</span>If yes, from where?</label>
         <div class="options inline" id="knw_he_src">
-          <div class="option-item" onclick="selectRadio('knw_he_src', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Health Programs</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('knw_he_src', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Hospitals</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('knw_he_src', '3', this)"><span class="option-dot"></span><span class="option-label">Family/Neighbors</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('knw_he_src', '4', this)"><span class="option-dot"></span><span class="option-label">Social Media</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('knw_he_src', '5', this)"><span class="option-dot"></span><span class="option-label">TV/Radio</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_he_src', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Health Programs</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_he_src', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary Hospitals</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_he_src', '3', this)"><span class="option-dot"></span><span class="option-label">Family/Neighbors</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_he_src', '4', this)"><span class="option-dot"></span><span class="option-label">Social Media</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('knw_he_src', '5', this)"><span class="option-dot"></span><span class="option-label">TV/Radio</span><span class="option-code">5</span></div>
         </div>
       </div>
     </div>
@@ -468,10 +468,10 @@
       <div class="field">
         <label><span class="qnum">2</span>Protective measures when handling sick/dead animals?</label>
         <div class="options inline" id="prc_handle_ppe">
-          <div class="option-item" onclick="selectRadio('prc_handle_ppe', '1', this)"><span class="option-dot"></span><span class="option-label">Use gloves/polythene</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('prc_handle_ppe', '2', this)"><span class="option-dot"></span><span class="option-label">Bare hands</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('prc_handle_ppe', '3', this)"><span class="option-dot"></span><span class="option-label">Only wash hands</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('prc_handle_ppe', '0', this)"><span class="option-dot"></span><span class="option-label">No protection</span><span class="option-code">0</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_handle_ppe', '1', this)"><span class="option-dot"></span><span class="option-label">Use gloves/polythene</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_handle_ppe', '2', this)"><span class="option-dot"></span><span class="option-label">Bare hands</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_handle_ppe', '3', this)"><span class="option-dot"></span><span class="option-label">Only wash hands</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_handle_ppe', '0', this)"><span class="option-dot"></span><span class="option-label">No protection</span><span class="option-code">0</span></div>
         </div>
       </div>
       <div class="field">
@@ -495,21 +495,21 @@
       <div class="field">
         <label><span class="qnum">5</span>Measures to prevent infection from farm?</label>
         <div class="options" id="prc_inf_prev">
-          <div class="option-item" onclick="selectRadio('prc_inf_prev', '1', this)"><span class="option-dot"></span><span class="option-label">Wear separate shoes and clothes</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('prc_inf_prev', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict visitor entry</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('prc_inf_prev', '3', this)"><span class="option-dot"></span><span class="option-label">Disinfect hands/feet at entry/exit</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('prc_inf_prev', '4', this)"><span class="option-dot"></span><span class="option-label">Prevent wildlife/birds/pets</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('prc_inf_prev', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '1', this)"><span class="option-dot"></span><span class="option-label">Wear separate shoes and clothes</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict visitor entry</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '3', this)"><span class="option-dot"></span><span class="option-label">Disinfect hands/feet at entry/exit</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '4', this)"><span class="option-dot"></span><span class="option-label">Prevent wildlife/birds/pets</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
         <label><span class="qnum">6</span>Steps to maintain farm cleanliness?</label>
         <div class="options" id="prc_clean_step">
-          <div class="option-item" onclick="selectRadio('prc_clean_step', '1', this)"><span class="option-dot"></span><span class="option-label">Remove dung/manure daily</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('prc_clean_step', '2', this)"><span class="option-dot"></span><span class="option-label">Dry surfaces after cleaning</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('prc_clean_step', '3', this)"><span class="option-dot"></span><span class="option-label">Apply specific disinfectant</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('prc_clean_step', '4', this)"><span class="option-dot"></span><span class="option-label">Clean farm vehicles regularly</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('prc_clean_step', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_clean_step', '1', this)"><span class="option-dot"></span><span class="option-label">Remove dung/manure daily</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_clean_step', '2', this)"><span class="option-dot"></span><span class="option-label">Dry surfaces after cleaning</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_clean_step', '3', this)"><span class="option-dot"></span><span class="option-label">Apply specific disinfectant</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_clean_step', '4', this)"><span class="option-dot"></span><span class="option-label">Clean farm vehicles regularly</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_clean_step', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
@@ -542,11 +542,11 @@
       <div class="field">
         <label><span class="qnum">10</span>Measures for feed safety?</label>
         <div class="options" id="prc_feed_safe">
-          <div class="option-item" onclick="selectRadio('prc_feed_safe', '1', this)"><span class="option-dot"></span><span class="option-label">Keep feed storage covered</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('prc_feed_safe', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict rats/birds/wildlife from feed</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('prc_feed_safe', '3', this)"><span class="option-dot"></span><span class="option-label">Regularly clean water pots/tanks</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('prc_feed_safe', '4', this)"><span class="option-dot"></span><span class="option-label">Clean surrounding between feedings</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectRadio('prc_feed_safe', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_feed_safe', '1', this)"><span class="option-dot"></span><span class="option-label">Keep feed storage covered</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_feed_safe', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict rats/birds/wildlife from feed</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_feed_safe', '3', this)"><span class="option-dot"></span><span class="option-label">Regularly clean water pots/tanks</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_feed_safe', '4', this)"><span class="option-dot"></span><span class="option-label">Clean surrounding between feedings</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_feed_safe', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
@@ -556,16 +556,16 @@
           <div class="option-item" onclick="selectRadio('prc_vac_reg', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
         </div>
       </div>
-      <div class="field">
+      <div class="field" data-show-when="prc_vac_reg=0">
         <label><span class="qnum">12</span>If no, why not?</label>
         <div class="options" id="prc_no_vac_why">
-          <div class="option-item" onclick="selectRadio('prc_no_vac_why', '1', this)"><span class="option-dot"></span><span class="option-label">Vaccine not easily available</span><span class="option-code">1</span></div>
-          <div class="option-item" onclick="selectRadio('prc_no_vac_why', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary center is far</span><span class="option-code">2</span></div>
-          <div class="option-item" onclick="selectRadio('prc_no_vac_why', '3', this)"><span class="option-dot"></span><span class="option-label">Travel/purchase cost is high</span><span class="option-code">3</span></div>
-          <div class="option-item" onclick="selectRadio('prc_no_vac_why', '4', this)"><span class="option-dot"></span><span class="option-label">Animal health workers not sincere</span><span class="option-code">4</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_no_vac_why', '1', this)"><span class="option-dot"></span><span class="option-label">Vaccine not easily available</span><span class="option-code">1</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_no_vac_why', '2', this)"><span class="option-dot"></span><span class="option-label">Veterinary center is far</span><span class="option-code">2</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_no_vac_why', '3', this)"><span class="option-dot"></span><span class="option-label">Travel/purchase cost is high</span><span class="option-code">3</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_no_vac_why', '4', this)"><span class="option-dot"></span><span class="option-label">Animal health workers not sincere</span><span class="option-code">4</span></div>
         </div>
       </div>
-      <div class="field">
+      <div class="field" data-show-when="prc_vac_reg=1">
         <label><span class="qnum">13</span>From where do you collect anthrax vaccine?</label>
         <div class="options inline" id="prc_vac_src">
           <div class="option-item" onclick="selectRadio('prc_vac_src', '1', this)"><span class="option-dot"></span><span class="option-label">Govt. Animal Hospital</span><span class="option-code">1</span></div>
@@ -713,12 +713,78 @@ async function syncAllToSheet() {
 
 const FIELD_VALUES = {};
 
+// ── Multi-select fields (logically allow >1 answer) ────────────────────────
+const MULTI_FIELDS = new Set([
+  'src_ant_knw',
+  'knw_sprd_hum','knw_sprd_anm',
+  'knw_sym_pltry','knw_sym_hum','knw_sym_anm',
+  'knw_prev_anm','knw_prev_hum',
+  'knw_he_src',
+  'prc_handle_ppe','prc_inf_prev','prc_clean_step','prc_feed_safe',
+  'prc_no_vac_why'
+]);
+
 function selectRadio(fieldId, value, el) {
   const parent = document.getElementById(fieldId);
   parent.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
   el.classList.add('selected');
   FIELD_VALUES[fieldId] = value;
+  applyConditionals();
   updateProgress();
+}
+
+function selectCheckbox(fieldId, value, el) {
+  const current = FIELD_VALUES[fieldId] ? FIELD_VALUES[fieldId].split(',').filter(Boolean) : [];
+  const idx = current.indexOf(value);
+  if (idx >= 0) {
+    current.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    current.push(value);
+    el.classList.add('selected');
+  }
+  if (current.length) FIELD_VALUES[fieldId] = current.join(',');
+  else delete FIELD_VALUES[fieldId];
+  applyConditionals();
+  updateProgress();
+}
+
+// ── Conditional display: parse data-show-when="gate=val1|val2" ─────────────
+function applyConditionals() {
+  document.querySelectorAll('[data-show-when]').forEach(node => {
+    const rule = node.getAttribute('data-show-when');
+    const [gate, vals] = rule.split('=');
+    const allowed = vals.split('|');
+    const current = FIELD_VALUES[gate];
+    const show = current !== undefined && allowed.includes(current);
+    node.style.display = show ? '' : 'none';
+    if (!show) {
+      // Clear any values inside hidden fields so stale answers don't save
+      node.querySelectorAll('[id]').forEach(child => {
+        const cid = child.id;
+        if (FIELD_VALUES[cid] !== undefined) {
+          delete FIELD_VALUES[cid];
+          child.querySelectorAll('.option-item.selected').forEach(i => i.classList.remove('selected'));
+        }
+        if (child.tagName === 'INPUT') child.value = '';
+      });
+    }
+  });
+}
+
+// ── Re-paint .selected state from FIELD_VALUES (after load) ────────────────
+function rehydrateSelections() {
+  document.querySelectorAll('.options[id]').forEach(group => {
+    const fid = group.id;
+    group.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+    const v = FIELD_VALUES[fid];
+    if (v === undefined || v === '') return;
+    const vals = MULTI_FIELDS.has(fid) ? v.split(',') : [v];
+    group.querySelectorAll('.option-item').forEach(i => {
+      const code = i.querySelector('.option-code');
+      if (code && vals.includes(code.textContent.trim())) i.classList.add('selected');
+    });
+  });
 }
 
 function updateRespId() {
@@ -742,15 +808,32 @@ function navSection(dir) {
   showSection(SECTIONS[next], tabs[next]);
 }
 
+function isVisible(el) {
+  while (el && el !== document.body) {
+    if (el.style && el.style.display === 'none') return false;
+    el = el.parentElement;
+  }
+  return true;
+}
+
 function updateProgress() {
-  const textFields = ['id'];
-  let filled = Object.keys(FIELD_VALUES).length;
-  textFields.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && el.value.trim()) filled++;
+  // Count visible fields only — hidden conditional fields don't count.
+  let total = 0, filled = 0;
+  // Coded option groups
+  document.querySelectorAll('.options[id]').forEach(group => {
+    if (!isVisible(group)) return;
+    total++;
+    if (FIELD_VALUES[group.id]) filled++;
+  });
+  // Free-text inputs (currently only 'id')
+  ['id'].forEach(fid => {
+    const el = document.getElementById(fid);
+    if (!el || !isVisible(el)) return;
+    total++;
+    if (el.value.trim()) filled++;
   });
   document.getElementById('fields-filled').textContent = filled;
-  const pct = Math.min(100, Math.round(filled / 60 * 100));
+  const pct = total ? Math.min(100, Math.round(filled / total * 100)) : 0;
   document.getElementById('prog-fill').style.width = pct + '%';
   document.getElementById('prog-text').textContent = pct + '% complete';
 }
@@ -817,6 +900,7 @@ function clearForm() {
   });
   for (const k in FIELD_VALUES) delete FIELD_VALUES[k];
   document.getElementById('resp-id-display').textContent = '—';
+  applyConditionals();
   updateProgress();
   showToast('Form cleared');
 }
@@ -863,7 +947,11 @@ function renderTable() {
     const kKeys = ['knw_ant','knw_cause','knw_sprd_hum','knw_sprd_anm','knw_pltry_inf','knw_sym_pltry','knw_pltry_hum','knw_sym_hum','knw_sym_anm','knw_prev_anm','knw_prev_hum','knw_he_recv','knw_he_src'];
     const aKeys = ['att_serious','att_likely_hum','att_milk_trans','att_graze_src','att_vac_prev','att_vac_imp','att_hyg_reduce','att_disposal','att_govt_trust','att_he_help'];
     const pKeys = ['prc_sick_act','prc_handle_ppe','prc_dead_act','prc_disposal','prc_inf_prev','prc_clean_step','prc_clean_freq','prc_disinf','prc_clean_ppe','prc_feed_safe','prc_vac_reg'];
-    const score = (keys) => keys.filter(k => r[k] === '1').length + '/' + keys.length;
+    const score = (keys) => keys.filter(k => {
+      const v = r[k];
+      if (v === undefined || v === '') return false;
+      return String(v).split(',').includes('1');
+    }).length + '/' + keys.length;
 
     html += `<tr>
       <td style="color:var(--gray-400);text-align:center;">${i+1}</td>
@@ -899,7 +987,7 @@ function exportCSV() {
   showToast('✅ CSV exported (' + records.length + ' records)');
 }
 
-// SPSS Syntax export — includes VARIABLE LABELS and VALUE LABELS for every coded question
+// SPSS Syntax export — multi-select fields expand to dichotomy variables + MRSETS
 function exportSPSS() {
   if (records.length === 0) { showToast('No records to export!'); return; }
   const keys = getAllKeys();
@@ -909,17 +997,6 @@ function exportSPSS() {
   syntax += `* Title: Knowledge Attitude and Practices regarding Anthrax among Rural Dairy and Poultry Farmers.\n`;
   syntax += `* NIPSOM — Generated on ${new Date().toLocaleDateString()}.\n`;
   syntax += `* Total records: ${records.length}.\n\n`;
-
-  syntax += `DATA LIST FREE\n  / ${keys.join(' ')} .\nBEGIN DATA.\n`;
-  records.forEach(r => {
-    const row = keys.map(k => {
-      const v = r[k] !== undefined && r[k] !== '' ? r[k] : '.';
-      if (typeof v === 'string' && isNaN(v) && v !== '.') return `'${esc(v)}'`;
-      return v;
-    });
-    syntax += row.join(' ') + '\n';
-  });
-  syntax += `END DATA.\n\n`;
 
   // Labels = exact original questions from the questionnaire PDF
   const varLabels = {
@@ -983,10 +1060,6 @@ function exportSPSS() {
     prc_vac_src: 'From where do you collect anthrax vaccine for animals?'
   };
 
-  syntax += `* Variable labels.\nVARIABLE LABELS\n`;
-  const labelLines = keys.filter(k => varLabels[k]).map(k => `  ${k} '${esc(varLabels[k])}'`);
-  syntax += labelLines.join('\n') + '\n.\n\n';
-
   const yn = { '1':'Yes', '0':'No' };
   const valueLabels = {
     age: { '1':'18-40 years', '2':'41-50 years', '3':'51-60 years', '4':'Above 60 years' },
@@ -1044,16 +1117,87 @@ function exportSPSS() {
     prc_vac_src:{ '1':'Government animal hospital', '2':'NGO', '3':'Pharmacy', '4':'Other' }
   };
 
+  // Expand keys: replace each multi field with one dichotomy variable per option code.
+  // Keeps a stable per-option ordering so re-runs are deterministic.
+  const dichotomyMembers = {};  // multi field -> array of dichotomy var names
+  const spssKeys = [];
+  keys.forEach(k => {
+    if (MULTI_FIELDS.has(k) && valueLabels[k]) {
+      const codes = Object.keys(valueLabels[k]).sort((a, b) => Number(a) - Number(b));
+      const members = codes.map(c => `${k}_${c}`);
+      dichotomyMembers[k] = { codes, members };
+      members.forEach(m => spssKeys.push(m));
+    } else {
+      spssKeys.push(k);
+    }
+  });
+
+  // ── DATA LIST + BEGIN DATA ──
+  syntax += `DATA LIST FREE\n  / ${spssKeys.join(' ')} .\nBEGIN DATA.\n`;
+  records.forEach(r => {
+    const row = spssKeys.map(spssK => {
+      // Determine if this column is a dichotomy slice
+      const m = spssK.match(/^(.+)_([0-9]+)$/);
+      if (m && dichotomyMembers[m[1]]) {
+        const raw = r[m[1]];
+        if (raw === undefined || raw === '') return '.';
+        const selected = String(raw).split(',').map(s => s.trim());
+        return selected.includes(m[2]) ? '1' : '0';
+      }
+      const v = r[spssK] !== undefined && r[spssK] !== '' ? r[spssK] : '.';
+      if (typeof v === 'string' && isNaN(v) && v !== '.') return `'${esc(v)}'`;
+      return v;
+    });
+    syntax += row.join(' ') + '\n';
+  });
+  syntax += `END DATA.\n\n`;
+
+  // ── VARIABLE LABELS ──
+  syntax += `* Variable labels.\nVARIABLE LABELS\n`;
+  const labelLines = [];
+  keys.forEach(k => {
+    if (dichotomyMembers[k]) {
+      const codes = valueLabels[k];
+      dichotomyMembers[k].codes.forEach(c => {
+        const optLabel = codes[c] || c;
+        labelLines.push(`  ${k}_${c} '${esc((varLabels[k] || k) + ' — ' + optLabel)}'`);
+      });
+    } else if (varLabels[k]) {
+      labelLines.push(`  ${k} '${esc(varLabels[k])}'`);
+    }
+  });
+  syntax += labelLines.join('\n') + '\n.\n\n';
+
+  // ── VALUE LABELS ──
   syntax += `* Value labels.\nVALUE LABELS\n`;
-  const vlBlocks = Object.entries(valueLabels).map(([k, codes]) => {
-    const lines = Object.entries(codes).map(([c, l]) => `    ${c} '${esc(l)}'`).join('\n');
-    return `  /${k}\n${lines}`;
+  const vlBlocks = [];
+  Object.entries(valueLabels).forEach(([k, codes]) => {
+    if (dichotomyMembers[k]) {
+      // Each dichotomy slice: 0='No', 1='Yes'
+      dichotomyMembers[k].codes.forEach(c => {
+        vlBlocks.push(`  /${k}_${c}\n    0 'No'\n    1 'Yes'`);
+      });
+    } else {
+      const lines = Object.entries(codes).map(([c, l]) => `    ${c} '${esc(l)}'`).join('\n');
+      vlBlocks.push(`  /${k}\n${lines}`);
+    }
   });
   syntax += vlBlocks.join('\n') + '\n.\n\n';
 
+  // ── MRSETS — multi-response set definitions (MDGROUP, value=1 dichotomies) ──
+  if (Object.keys(dichotomyMembers).length) {
+    syntax += `* Multi-response sets (dichotomy groups).\nMRSETS\n`;
+    Object.entries(dichotomyMembers).forEach(([k, def]) => {
+      syntax += `  /MDGROUP NAME=$${k} LABEL='${esc(varLabels[k] || k)}'\n`;
+      syntax += `    VARIABLES=${def.members.join(' ')}\n`;
+      syntax += `    VALUE=1\n`;
+    });
+    syntax += `  .\n\n`;
+  }
+
   syntax += `EXECUTE.\n`;
   downloadFile('anthrax_kap_syntax.sps', syntax, 'text/plain');
-  showToast('✅ SPSS syntax exported with variable + value labels!');
+  showToast('✅ SPSS syntax exported with dichotomies + MRSETS!');
 }
 
 function getAllKeys() {
@@ -1132,7 +1276,19 @@ function fetchJSONP(url) {
   });
 }
 
-// Init — always load fresh from Google Sheet
+// ── Init: mark multi-select option items with .checkbox class for styling ─
+function markMultiOptions() {
+  MULTI_FIELDS.forEach(fid => {
+    const group = document.getElementById(fid);
+    if (!group) return;
+    group.querySelectorAll('.option-item').forEach(i => i.classList.add('checkbox'));
+  });
+}
+
+// Init — apply conditionals + multi styling, then load from Google Sheet
+markMultiOptions();
+applyConditionals();
+updateProgress();
 loadFromSheet();
 </script>
 </body>
