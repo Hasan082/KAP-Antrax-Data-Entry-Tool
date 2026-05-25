@@ -128,15 +128,8 @@
             <div class="option-item" onclick="selectRadio('outbreak_area', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
-        <div class="field">
-          <label><span class="qnum">9</span>Has any member of your family suffered from anthrax?</label>
-          <div class="options inline" id="fam_suf_ant">
-            <div class="option-item" onclick="selectRadio('fam_suf_ant', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
-            <div class="option-item" onclick="selectRadio('fam_suf_ant', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
-          </div>
-        </div>
-        <div class="field" data-show-when="fam_suf_ant=1">
-          <label><span class="qnum">10</span>If yes, how long ago?</label>
+        <div class="field" data-show-when="outbreak_area=1">
+          <label><span class="qnum">9</span>If yes, how long ago?</label>
           <div class="options inline" id="fam_suf_dur">
             <div class="option-item" onclick="selectRadio('fam_suf_dur', '1', this)"><span class="option-dot"></span><span class="option-label">1–6 months</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('fam_suf_dur', '2', this)"><span class="option-dot"></span><span class="option-label">7–12 months</span><span class="option-code">2</span></div>
@@ -144,28 +137,28 @@
           </div>
         </div>
         <div class="field">
-          <label><span class="qnum">11</span>Family ever infected with anthrax?</label>
+          <label><span class="qnum">10</span>Family ever infected with anthrax?</label>
           <div class="options inline" id="fam_inf_ant">
             <div class="option-item" onclick="selectRadio('fam_inf_ant', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('fam_inf_ant', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
-          <label><span class="qnum">12</span>Livestock ever infected?</label>
+          <label><span class="qnum">11</span>Livestock ever infected?</label>
           <div class="options inline" id="lstk_inf_ant">
             <div class="option-item" onclick="selectRadio('lstk_inf_ant', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('lstk_inf_ant', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field">
-          <label><span class="qnum">13</span>Training on disease transmission?</label>
+          <label><span class="qnum">12</span>Training on disease transmission?</label>
           <div class="options inline" id="train_dis">
             <div class="option-item" onclick="selectRadio('train_dis', '1', this)"><span class="option-dot"></span><span class="option-label">Yes</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('train_dis', '0', this)"><span class="option-dot"></span><span class="option-label">No</span><span class="option-code">0</span></div>
           </div>
         </div>
         <div class="field span2">
-          <label><span class="qnum">14</span>Accessibility of veterinary services?</label>
+          <label><span class="qnum">13</span>Accessibility of veterinary services?</label>
           <div class="options inline" id="vet_access">
             <div class="option-item" onclick="selectRadio('vet_access', '1', this)"><span class="option-dot"></span><span class="option-label">Very Accessible</span><span class="option-code">1</span></div>
             <div class="option-item" onclick="selectRadio('vet_access', '2', this)"><span class="option-dot"></span><span class="option-label">Moderately Accessible</span><span class="option-code">2</span></div>
@@ -502,7 +495,7 @@
           <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '2', this)"><span class="option-dot"></span><span class="option-label">Restrict visitor entry</span><span class="option-code">2</span></div>
           <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '3', this)"><span class="option-dot"></span><span class="option-label">Disinfect hands/feet at entry/exit</span><span class="option-code">3</span></div>
           <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '4', this)"><span class="option-dot"></span><span class="option-label">Prevent wildlife/birds/pets</span><span class="option-code">4</span></div>
-          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '5', this)"><span class="option-dot"></span><span class="option-label">Do not know</span><span class="option-code">5</span></div>
+          <div class="option-item" onclick="selectCheckbox('prc_inf_prev', '5', this)"><span class="option-dot"></span><span class="option-label">Do nothing</span><span class="option-code">5</span></div>
         </div>
       </div>
       <div class="field">
@@ -1013,7 +1006,6 @@ function exportSPSS() {
     mon_inc: 'Please tell your monthly income.',
     src_ant_knw: 'From where did you learn about anthrax/torka disease?',
     outbreak_area: 'Has there ever been an anthrax outbreak in your area?',
-    fam_suf_ant: 'Has any member of your family suffered from anthrax?',
     fam_suf_dur: 'If yes, how long ago?',
     fam_inf_ant: 'Has anyone in your family ever been infected with anthrax?',
     lstk_inf_ant: 'Has any of your livestock ever been infected with anthrax?',
@@ -1073,7 +1065,7 @@ function exportSPSS() {
     occupation: { '1':'Day Labourer', '2':'Farmer', '3':'Business', '4':'Service', '5':'Others' },
     mon_inc: { '1':'5000-15000', '2':'16000-25000', '3':'Above 25000' },
     src_ant_knw: { '1':'Family/Friends/Neighbors', '2':'Veterinary Officer', '3':'Health Worker', '4':'TV/Newspaper', '5':'Other' },
-    outbreak_area: yn, fam_suf_ant: yn, fam_inf_ant: yn, lstk_inf_ant: yn, train_dis: yn,
+    outbreak_area: yn, fam_inf_ant: yn, lstk_inf_ant: yn, train_dis: yn,
     fam_suf_dur: { '1':'1-6 months', '2':'7-12 months', '3':'More than 12 months' },
     vet_access: { '1':'Very Accessible', '2':'Moderately Accessible', '3':'Poorly Accessible', '0':'Not Accessible' },
     prt_nature: { '1':'Farm Owner', '2':'Farm Worker' },
@@ -1110,7 +1102,7 @@ function exportSPSS() {
     prc_handle_ppe: { '1':'Use gloves/polythene', '2':'Handle with bare hands', '3':'Only wash hands', '0':'No protection' },
     prc_dead_act: { '1':'Inform veterinary officer', '2':'Bury in a pit', '3':'Discuss with neighbors', '0':'Do nothing' },
     prc_disposal: { '1':'Bury in a pit ASAP', '2':'Burn/incinerate', '3':'Throw into water body', '4':'Throw in open place' },
-    prc_inf_prev: { '1':'Separate shoes and clothes', '2':'Restrict visitor entry', '3':'Disinfect at entry/exit', '4':'Prevent entry of wildlife/birds/pets', '5':'Do not know' },
+    prc_inf_prev: { '1':'Separate shoes and clothes', '2':'Restrict visitor entry', '3':'Disinfect at entry/exit', '4':'Prevent entry of wildlife/birds/pets', '5':'Do nothing' },
     prc_clean_step: { '1':'Daily dung/manure removal', '2':'Dry surfaces after cleaning', '3':'Apply specific disinfectant', '4':'Clean farm vehicles regularly', '5':'Do nothing' },
     prc_clean_freq: { '1':'Daily', '2':'Weekly', '3':'After each production cycle', '4':'Sometimes' },
     prc_disinf: { '1':'Regular disinfectant spray', '2':'Only footbath', '3':'Fumigation', '4':'Only water' },
@@ -1206,7 +1198,7 @@ function exportSPSS() {
 
 function getAllKeys() {
   // Always return the full fixed column list — every field, even if empty in some records
-  return ['id','age','gender','religion','edu_qua','occupation','mon_inc','src_ant_knw','outbreak_area','fam_suf_ant','fam_suf_dur','fam_inf_ant','lstk_inf_ant','train_dis','vet_access','prt_nature','farm_type','farm_scale','lstk_type','lstk_num','pltry_type','pltry_num','knw_ant','knw_cause','knw_sprd_hum','knw_sprd_anm','knw_pltry_inf','knw_sym_pltry','knw_pltry_hum','knw_sym_hum','knw_sym_anm','knw_prev_anm','knw_prev_hum','knw_he_recv','knw_he_src','att_serious','att_likely_hum','att_milk_trans','att_graze_src','att_vac_prev','att_vac_imp','att_hyg_reduce','att_disposal','att_govt_trust','att_he_help','prc_sick_act','prc_handle_ppe','prc_dead_act','prc_disposal','prc_inf_prev','prc_clean_step','prc_clean_freq','prc_disinf','prc_clean_ppe','prc_feed_safe','prc_vac_reg','prc_no_vac_why','prc_vac_src'];
+  return ['id','age','gender','religion','edu_qua','occupation','mon_inc','src_ant_knw','outbreak_area','fam_suf_dur','fam_inf_ant','lstk_inf_ant','train_dis','vet_access','prt_nature','farm_type','farm_scale','lstk_type','lstk_num','pltry_type','pltry_num','knw_ant','knw_cause','knw_sprd_hum','knw_sprd_anm','knw_pltry_inf','knw_sym_pltry','knw_pltry_hum','knw_sym_hum','knw_sym_anm','knw_prev_anm','knw_prev_hum','knw_he_recv','knw_he_src','att_serious','att_likely_hum','att_milk_trans','att_graze_src','att_vac_prev','att_vac_imp','att_hyg_reduce','att_disposal','att_govt_trust','att_he_help','prc_sick_act','prc_handle_ppe','prc_dead_act','prc_disposal','prc_inf_prev','prc_clean_step','prc_clean_freq','prc_disinf','prc_clean_ppe','prc_feed_safe','prc_vac_reg','prc_no_vac_why','prc_vac_src'];
 }
 
 function downloadFile(filename, content, mime) {
